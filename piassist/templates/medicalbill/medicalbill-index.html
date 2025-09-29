@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container has-text-centered">
+  <h1 class="title">Clients</h1>
+  
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>
+          Medical Bill List
+        </th>
+        <th>
+          <span class="buttons is-right">
+            <a class="button" href="{{ url_for('medicalbill.input', tenant_name=tenant_name) }}">New Medical Bill</a>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for medicalbill in medicalbills %}
+        <tr>
+            <td><a href="{{ url_for('medicalbill.details', tenant_name=tenant_name, client_id=medicalbill.client_id, medical_provider_id=medicalbill.medical_provider_id) }}">{{ medicalbill.medical_provider.name }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- FORM BODY STARTS HERE 
+        <form method="POST" action="/new/healthinsurance"> -->
+        <form method="POST" action="{{ url_for('healthinsurance.input', tenant_name=tenant_name ) }}">
+        <div id="health_insurance_form">
+            <div class="box">
+                <h1 class="title">New Health Insurance Provider</h1>
+                <!-- PROVIDER NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Provider</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="name">
+                            </div>
+                        </div>
+                         <!--REQUEST METHOD -->
+                         <div class="field">
+                            <label class="label">Request Method</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="request_method">
+                                        <option></option>
+                                        <option>Fax</option>
+                                        <option>Email</option>
+                                        <option>Optum</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- STREET ADDRESS -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Street Address</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="street_address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Street Address 2</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="street_address_2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CITY STATE ZIP -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">City</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="city">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="state">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Zip Code</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="zip_code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Phone Numbers</h2>
+                <!-- PHONE 1 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone 1 Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="phone_1_type">
+                                        <option></option>
+                                        <option>General</option>
+                                        <option>Subrogation</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Phone 1 Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="phone_1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE 2 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone 2 Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="phone_2_type">
+                                        <option></option>
+                                        <option>General</option>
+                                        <option>Subrogation</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Phone 2 Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="phone_2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            <div class="box">
+                <h2 class="subtitle">Fax Numbers</h2>
+                <!-- FAX 1 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Fax 1 Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="fax_1_type">
+                                        <option></option>
+                                        <option>General</option>
+                                        <option>Subrogation</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax 1 Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="fax_1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAX 2 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Fax 2 Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="fax_2_type">
+                                        <option></option>
+                                        <option>General</option>
+                                        <option>Subrogation</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax 2 Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="fax_2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            <div class="box">
+                <h2 class="subtitle">Email Addresses</h2>
+                <!-- EMAIL 1 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Email 1 Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="email_1_type">
+                                        <option></option>
+                                        <option>General</option>
+                                        <option>Subrogation</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email 1 Address</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="email_1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- EMAIL 2 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Email 2 Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="email_2_type">
+                                        <option></option>
+                                        <option>General</option>
+                                        <option>Subrogation</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email 2 Address</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="email_2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- NOTES -->
+            <div class="box">
+                <h2 class="subtitle"> Provider Notes</h2>
+                <textarea class="textarea" name="notes"></textarea>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Create</button>
+            </div>
+        </div>
+    </form>
+        <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

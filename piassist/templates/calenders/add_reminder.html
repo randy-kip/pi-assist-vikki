@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+    <h1>Add Reminder</h1>
+</header>
+
+<main>
+    <form action="" method="POST">
+        
+        <div class="form-group">
+            <label for="reminder_type">Reminder Type:</label>
+            <select id="reminder_type" name="reminder_type" required>
+                <option value="Deadline">Deadline</option>
+                <option value="Follow-Up">Follow-Up</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="reminder_date">Reminder Date:</label>
+            <input type="date" id="reminder_date" name="reminder_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reminder_time">Reminder Time (Optional):</label>
+            <input type="time" id="reminder_time" name="reminder_time">
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" placeholder="Enter additional notes (optional)"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Reminder</button>
+            
+        </div>
+    </form>
+</main>
+{% endblock %}

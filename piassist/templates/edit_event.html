@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .separate{
+        margin-top: 30px;
+    }
+</style>
+<div class="container">
+    <div class="form-container">
+        <h1 class="title is-4">Edit Event for {{ tenant_name }}</h1>
+        
+        <form method="POST">
+            <div class="separate">
+                <label for="event_name" class="form-label">Event Name</label>
+                <input type="text" name="event_name" class="input form-input" value="{{ event.event_name }}" required>
+            </div>
+
+            <div class="separate">
+                <label for="start_datetime" class="form-label">Start Date and Time</label>
+                <input type="datetime-local" name="start_datetime" class="input form-input" value="{{ event.start_datetime }}" required>
+            </div>
+
+            <div class="separate">
+                <label for="end_datetime" class="form-label">End Date and Time</label>
+                <input type="datetime-local" name="end_datetime" class="input form-input" value="{{ event.end_datetime }}" required>
+            </div>
+
+            <div class="separate">
+                <label for="event_type" class="form-label">Event Type</label>
+                <select name="event_type" class="select form-select" required>
+                    <option value="appointment" {% if event.event_type == 'appointment' %}selected{% endif %}>Appointment</option>
+                    <option value="deadline" {% if event.event_type == 'deadline' %}selected{% endif %}>Deadline</option>
+                    <option value="meeting" {% if event.event_type == 'meeting' %}selected{% endif %}>Meeting</option>
+                    <!-- Add more event types as needed -->
+                </select>
+            </div>
+
+            <div class="separate">
+                <label for="client_id" class="form-label">Client</label>
+                <select name="client_id" class="select form-select" required>
+                    <!-- Populate the client options dynamically -->
+                    {% for client in clients %}
+                        <option value="{{ client.id }}" {% if client.id == event.client_id %}selected{% endif %}>
+                            {{ client.full_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="separate">
+                <label for="casefile_id" class="form-label">Casefile</label>
+                <select name="casefile_id" class="select form-select" required>
+                    <!-- Populate the casefile options dynamically -->
+                    {% for casefile in casefiles %}
+                        <option value="{{ casefile.id }}" {% if casefile.id == event.casefile_id %}selected{% endif %}>
+                            {{ casefile.case_label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="separate">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="description" class="textarea form-textarea" required>{{ event.description }}</textarea>
+            </div>
+<div class="separate">
+            <button type="submit" class="button form-button">Save Changes</button>
+</div>
+        </form>
+<div class="separate">
+        <form action="{{ url_for('casefile.delete_event', tenant_name=tenant_name, event_id=event.id) }}" method="POST">
+            <button type="submit" class="button delete-button">Delete Event</button>
+        </form>
+</div>
+
+    </div>
+</div>
+{% endblock %}

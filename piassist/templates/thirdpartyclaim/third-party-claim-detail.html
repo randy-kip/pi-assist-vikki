@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <!-- FORM BODY STARTS HERE 
+    <form method="POST" action="/defendant/{{ third_party_claim.defendant_id }}/thirdpartyclaim/{{ third_party_claim.auto_insurance_id }}"> -->
+    <form method="POST" action="{{ url_for('thirdpartyclaim.details',defendant_id=defendant_id, tenant_name=tenant_name,auto_insurance_id=third_party_claim.auto_insurance_id ) }}"
+        <div id="third_party_claim_form">
+            <div class="box">
+                <h1 class="title">3rd Party Claim Details</h1>
+                <h2 class="subtitle"> {{ third_party_claim.auto_insurance.name }} - {{ third_party_claim.defendant.full_name}}</h2>
+                <!-- CLAIM STARTED AND DATE -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Has a claim been started?</label>
+                            <div class="select">
+                                <select name="is_started">
+                                    <option>{{ third_party_claim.is_started }}</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Claim Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ third_party_claim.claim_number }}" name="claim_number">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Has our client given a statement about this claim?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="is_statement">
+                                        <option>{{ third_party_claim.is_statement }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADJUSTER INFORMATION -->
+                <div class="field">
+                <label class="label">Auto Adjuster</label>
+                    <div class="select">
+                        <select name="auto_adjuster_id">
+                            <option value="{{ third_party_claim.auto_adjuster_id }}">{{ third_party_claim.auto_adjuster.full_name }}</option>
+                            {% for auto_adjuster in auto_adjusters %}<option value="{{ auto_adjuster.id }}">{{ auto_adjuster.full_name }}</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Adjuster Phone</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.phone }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Adjuster Fax</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.fax }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Adjuster Email</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Adjuster Address</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.street_address }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Adjuster City</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.city }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Adjuster State</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.state }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Adjuster Zip</label>
+                            <div class="content">
+                                <p>{{ third_party_claim.auto_adjuster.zip_code }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- LOR AND LOA -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Has LOR been sent?</label>
+                            <div class="select">
+                                <select name="is_lor_sent">
+                                    <option>{{ third_party_claim.is_lor_sent }}</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Date of Last Request</label>
+                            <div class="control">
+                                <input class="input" type="date" value="{{ third_party_claim.last_request_date}}" name="last_request_date">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Has LOA been received?</label>
+                            <div class="select">
+                                <select name="is_loa_received">
+                                    <option>{{ third_party_claim.is_loa_received }}</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- NOTES-->
+                <div class="field">
+                    <label class="label">Claim Notes</label>
+                    <textarea class="textarea" name="notes">{{ third_party_claim.notes }}</textarea>
+                </div>
+                <!-- BUTTON -->
+                <div class="buttons is-right">
+                    <button class="button is-large">Update</button>
+                </div>
+        </div>
+    </form>
+    <!-- FORM BODY ENDS HERE -->
+    <div class="columns">
+        <div class="column">
+            <div class="buttons is-left">
+               <!-- <a class="button is-danger" href="/delete/defendant/{{ third_party_claim.defendant_id }}">Delete Defendant and Claim</a>-->
+                <a class="button is-danger" href="{{ url_for('thirdpartyclaim.delete',tenant_name=tenant_name,defendant_id=defendant_id)}}">Delete Defendant and Claim</a>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="buttons is-right">
+              <!--  <a class="button is-info" href="/generate-adhoc-demand/defendant/{{ third_party_claim.defendant_id }}/autoinsurance/{{ third_party_claim.auto_insurance_id }}">Generate Demand</a>-->
+              <a class="button is-info" href="{{ url_for('drive_integration.generate_adhoc_demand',tenant_name=tenant_name,defendant_id=defendant_id,auto_insurance_id=auto_insurance_id)}}">Generate Demands</a>
+                               
+              <!--  <a class="button is-info" href="/generate-counter-demand/defendant/{{ third_party_claim.defendant_id }}/autoinsurance/{{ third_party_claim.auto_insurance_id }}">Generate Counter</a>-->
+              <a class="button is-info" href="{{ url_for('drive_integration.generate_counter_demand',tenant_name=tenant_name,defendant_id=defendant_id,auto_insurance_id=auto_insurance_id)}}">Generate Counter</a>
+                               
+              <!-- <a class="button is-info" href="/generate-proposed-settlement-statement/defendant/{{ third_party_claim.defendant_id }}/autoinsurance/{{ third_party_claim.auto_insurance_id }}">Generate PSS</a>-->
+              <a class="button is-info" href="{{ url_for('drive_integration.generate_adhoc_proposed_settlement_statement',tenant_name=tenant_name,defendant_id=defendant_id,auto_insurance_id=auto_insurance_id)}}">Generate PSS</a>
+                               
+              <!--  <a class="button is-info" href="/generate-acceptance-letter/defendant/{{ third_party_claim.defendant_id }}/autoinsurance/{{ third_party_claim.auto_insurance_id }}">Generate Offer Acceptance Letter</a>-->
+              <a class="button is-info" href="{{ url_for('drive_integration.generate_acceptance_letter',tenant_name=tenant_name,defendant_id=defendant_id,auto_insurance_id=auto_insurance_id)}}">Generate Offer Acceptance Letter</a>
+                               
+              <!--  <a class="button is-info" href="/generate-payment-instructions/defendant/{{ third_party_claim.defendant_id }}/autoinsurance/{{ third_party_claim.auto_insurance_id }}">Generate Payment Instructions</a>-->
+              <a class="button is-info" href="{{ url_for('drive_integration.generate_payment_instructions',tenant_name=tenant_name,defendant_id=defendant_id,auto_insurance_id=auto_insurance_id)}}">Generate Payment Instructions</a>
+                               
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

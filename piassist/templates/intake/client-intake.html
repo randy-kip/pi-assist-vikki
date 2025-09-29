@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+{% block head %}
+<script>
+    function addProvider(){
+        let element = "<div class='control'><div class='select'><select name='med_provider'><option value=''></option>{% for medical_provider in medical_providers %}<option value='{{ medical_provider.id }}'>{{ medical_provider.name }}</option>{% endfor %}</select></div></div>";
+        $(document).ready(function(){
+            $("#provider_list").append(element);
+        });
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Additional Client Information</h1>
+    <!----------------CLIENT INFORMATION------------->
+    <form method="POST" action="/intake/client">
+    <form method="POST" action="{{ url_for('intake.client', tenant_name=tenant_name ) }}"
+    <div class="box">
+    <h2 class="subtitle">Contact Information</h2>
+        <input type="hidden" name="case_id" value="{{ case_id }}">
+        <input type="hidden" name="client_number" value="{{ client_number }}">
+        <input type="hidden" name="client_count" value="{{ client_count }}">
+        <input type="hidden" name="defendant_count" value="{{ defendant_count }}">
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- is_driver -->
+            <div class="field">
+                <label class="label">Is this client the driver?</label>
+                <div class="select">
+                    <select name="is_driver">
+                        <option></option>
+                        <option>True</option>
+                        <option>False</option>
+                    </select>
+                </div>
+            </div>
+            <!-- first_name -->
+            <div class="field">
+                <label class="label">First Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="first_name" required>
+                </div>
+            </div>
+            <!-- middle_name -->
+            <div class="field">
+                <label class="label">Middle Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="middle_name">
+                </div>
+            </div>
+            <!-- last_name -->
+            <div class="field">
+                <label class="label">Last Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="last_name" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- marital_status (MODELED) -->
+            <div class="field">
+                <label class="label">Marital Status?</label>
+                <div class="control is-expanded">
+                    <div class="select is-fullwidth">
+                        <select name="marital_status">
+                            <option value=""></option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- dob -->
+            <div class="field">
+                <label class="label">Date of Birth</label>
+                <div class="control">
+                    <input class="input" type="date" name="dob">
+                </div>
+            </div>
+            <!-- ssn -->
+            <div class="field">
+                <label class="label">Social Security Number</label>
+                <div class="control">
+                    <input class="input" type="text" name="ssn">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- street_address -->
+            <div class="field">
+                <label class="label">Street Address</label>
+                <div class="control">
+                    <input class="input" type="text" name="street_address">
+                </div>
+            </div>
+            <!-- city -->
+            <div class="field">
+                <label class="label">City</label>
+                <div class="control">
+                    <input class="input" type="text" name="city">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- state -->
+            <div class="field">
+                <label class="label">State</label>
+                <div class="control">
+                    <input class="input" type="text" name="state">
+                </div>
+            </div>
+            <!-- zip_code -->
+            <div class="field">
+                <label class="label">Zip Code</label>
+                <div class="control">
+                    <input class="input" type="text" name="zip_code">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- primary_phone -->
+            <div class="field">
+                <label class="label">Primary Phone</label>
+                <div class="control">
+                    <input class="input" type="text" name="primary_phone">
+                </div>
+            </div>
+            <!-- secondary_phone -->
+            <div class="field">
+                <label class="label">Secondary Phone</label>
+                <div class="control">
+                    <input class="input" type="text" name="secondary_phone">
+                </div>
+            </div>
+            <!-- email -->
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input" type="text" name="email">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- referrer -->
+            <div class="field">
+                <label class="label">Who referred this client to us?</label>
+                <div class="control">
+                    <input class="input" type="text" name="referrer">
+                </div>
+            </div>
+            <!-- referrer_relationship -->
+            <div class="field">
+                <label class="label">Relationship</label>
+                <div class="control">
+                    <input class="input" type="text" name="referrer_relationship">
+                </div>
+                <p class="help">How are they related to the referring party?</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- client_notes (textarea)-->
+    <div class="field">
+        <label class="label">Additional client information (i.e. years residency, prior convictions, etc...)</label>
+        <div class="control">
+            <textarea class="textarea" name="notes" rows="10"></textarea>
+        </div>
+    </div>
+    </div>
+    <!----------------BODILY INFORMATION------------->
+    <div class="box has-background-white">
+        <h2 class="subtitle">Bodily Injury Information</h2>
+        <!-- injuries (textarea) -->
+        <div class="field">
+            <label class="label">What injuries were sustained from this accident?</label>
+            <div class="control">
+                <textarea class="textarea" name="injuries" rows="10"></textarea>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- ambulance (radio BOOLEAN) -->
+                <div class="field">
+                    <label class="label">Did this client leave in an ambulance?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="rode_ambulance" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="rode_ambulance" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Did this client go directly to the hospital after the accident?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="visited_hospital" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="visited_hospital" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- medical_provider_list (MODELED.... FOR NOW)-->
+        <div id="provider_list">
+        <div class="field">
+            <label class="label">Please list the names of all doctors and medical providers seen as a result of the accident</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="med_provider">
+                            <option value=""></option>
+                            {% for medical_provider in medical_providers %}
+                                <option value="{{ medical_provider.id }}">{{ medical_provider.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+        </div>
+        </div>
+        <div class="block">
+            <div class="buttons">
+                <p class="button" onclick="addProvider();">Add Another Provider</p>
+            </div>
+        </div>
+
+    <!----------------HEALTH INSURANCE INFORMATION------------->
+ 
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- hi (radio BOOLEAN) -->
+            <div class="field">
+                <label class="label">Does this client have health insurance?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="has_hi" value="True">
+                        True
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="has_hi" value="False">
+                        False
+                    </label>
+                </div>
+            </div>
+            <!-- hi_carrier -->
+            <div class="field">
+                <label class="label">Health Insurance Carrier name</label>
+                <div class="control">
+                    <div class="select is-multiple">
+                        <select name="health_insurance_id">
+                            <option value=""></option>
+                            {% for health_insurance_provider in health_insurance_providers %}<option value="{{ health_insurance_provider.id}}">{{ health_insurance_provider.name }}</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- hi_member_id -->
+            <div class="field">
+                <label class="label">Member ID #</label>
+                <div class="control">
+                    <input class="input" type="text" name="hi_member_id">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+    <div class="box has-background-white">
+    <h2 class="subtitle">Additional Injury Information</h2>
+        <!-- prior_injury (radio BOOLEAN) -->
+        <div class="field">
+            <label class="label">Has there been prior injury in the same parts of the body in the past?</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="had_prior_injury">
+                    True
+                </label>
+                <label class="radio">
+                    <input type="radio" name="had_prior_injury">
+                    False
+                </label>
+            </div>
+        </div>
+        <!-- prior_injury_notes (textarea) -->
+        <div class="field">
+            <label class="label">If yes, please describe the injury and list the doctor(s) who treated the client:</label>
+            <div class="control">
+                <textarea class="textarea" name="prior_injury_notes" rows="10"></textarea>
+            </div>
+        </div>
+        <!-- prior_accident (radio BOOLEAN) -->
+        <div class="field">
+            <label class="label">Have there been any accidents of any kind in the past 10 years?</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="prior_accident" value="True">
+                    True
+                </label>
+                <label class="radio">
+                    <input type="radio" name="prior_accident" value="False">
+                    False
+                </label>
+            </div>
+        </div>
+        <!-- prior_accident_notes (textarea) -->
+        <div class="field">
+            <label class="label">If yes, please describe prior accident including date of accident:</label>
+            <div class="control">
+                <textarea class="textarea" name="prior_accident_notes" rows="10"></textarea>
+            </div>
+        </div>
+        <!-- work_impacted (radio BOOLEAN) -->
+        <div class="field">
+            <label class="label">Has the client missed any work because of this accident?</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="was_work_impacted" value="True">
+                    True
+                </label>
+                <label class="radio">
+                    <input type="radio" name="was_work_impacted" value="False">
+                    False
+                </label>
+            </div>
+        </div>
+        <!-- work_impacted_notes (textarea) -->
+        <div class="field">
+            <label class="label">If yes, please list name of employer and describe loss of wages:</label>
+            <div class="control">
+                <textarea class="textarea" name="work_impacted_notes" rows="10"></textarea>
+            </div>
+        </div>
+    </div>
+         <!-- BUTTON -->
+         <div class="field">
+            <div class="buttons is-right">
+                <button class="button is-inverted is-large">
+                    <span class="icon-text">
+                        <span>Next Page</span>
+                        <span class="icon">
+                            <i class="fa fa-arrow-right"></i>
+                        </span>
+                    </span>
+                </button>
+            </div>  
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}

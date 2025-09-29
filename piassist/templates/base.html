@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Injury OK App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    {% block head %}
+        <script src="{{ url_for('static', filename='flashbar.js') }}"></script>
+    {% endblock %}
+</head>
+
+<body>
+    <!-- NAVBAR STARTS -->
+    <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+        <!-- NAVBAR LOGO -->
+        <div class="navbar-brand">
+            <div class="navbar-burger" data-target="myNavbar" onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- NAVBAR MENU -->
+        <div id="myNavbar" class="navbar-menu">
+            <div class="navbar-end">
+                <a href="{{ url_for('casefile.index', tenant_name=tenant_name) }}" class="navbar-item">Home</a>
+                {% if current_user.is_authenticated %}
+                <div class="navbar-item has-dropdown" id="intake">
+                    <a class="navbar-link" onclick="document.querySelector('#intake').classList.toggle('is-active');">Intake</a>
+                    <div class="navbar-dropdown">
+                        <a href="{{ url_for('intake.primary', tenant_name=tenant_name) }}" class="navbar-item">Full Intake</a>
+                        <a href="{{ url_for('intakemini.primary', tenant_name=tenant_name) }}" class="navbar-item">Quick & Dirty</a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown" id="med-provider">
+                    <a class="navbar-link" onclick="document.querySelector('#med-provider').classList.toggle('is-active');">Medical Providers</a>
+                    <div class="navbar-dropdown">
+                        <a href="{{ url_for('medprovider.index', tenant_name=tenant_name) }}" class="navbar-item">Provider List</a>
+                        <a href="{{ url_for('medprovider.input', tenant_name=tenant_name) }}" class="navbar-item">New Provider</a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown" id="health-insurance">
+                    <a class="navbar-link" onclick="document.querySelector('#health-insurance').classList.toggle('is-active');">Health Insurance</a>
+                    <div class="navbar-dropdown">
+                        <a href="{{ url_for('healthinsurance.index', tenant_name=tenant_name) }}" class="navbar-item">Provider List</a>
+                        <a href="{{ url_for('healthinsurance.input', tenant_name=tenant_name) }}" class="navbar-item">New Provider</a>
+                        <a href="{{ url_for('healthadjuster.index', tenant_name=tenant_name) }}" class="navbar-item">Adjuster List</a>
+                        <a href="{{ url_for('healthadjuster.input', tenant_name=tenant_name) }}" class="navbar-item">New Adjuster</a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown" id="auto-insurance">
+                    <a class="navbar-link" onclick="document.querySelector('#auto-insurance').classList.toggle('is-active');">Auto Insurance</a>
+                    <div class="navbar-dropdown">
+                        <a href="{{ url_for('autoinsurance.index', tenant_name=tenant_name) }}" class="navbar-item">Provider List</a>
+                        <a href="{{ url_for('autoinsurance.input', tenant_name=tenant_name) }}" class="navbar-item">New Provider</a>
+                        <a href="{{ url_for('autoadjuster.index', tenant_name=tenant_name) }}" class="navbar-item">Adjuster List</a>
+                        <a href="{{ url_for('autoadjuster.input', tenant_name=tenant_name) }}" class="navbar-item">New Adjuster</a>
+                    </div>
+                </div>
+                
+
+                
+
+                <div class="navbar-item has-dropdown" id="bill">
+                    <a class="navbar-link" onclick="document.querySelector('#bill').classList.toggle('is-active');">Medical bills</a>
+                    <div class="navbar-dropdown">
+                        
+                
+                        <a href="{{ url_for('medicalbill.medical_totals', tenant_name=tenant_name) }}" class="navbar-item">Medical Bill Totals</a>                        
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown" id="calendar">
+                    <a class="navbar-link" onclick="document.querySelector('#calendar').classList.toggle('is-active');">Calendar</a>
+                    <div class="navbar-dropdown">
+                        
+                
+                        <a href="{{ url_for('casefile.view_calendar', tenant_name=tenant_name) }}" class="navbar-item">View Calendar</a>                        
+                    </div>
+                </div>
+                        
+                </div>
+                {% endif %}
+                {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.login', tenant_name=tenant_name) }}" class="navbar-item">Login</a>
+                <a href="{{ url_for('auth.register', tenant_name=tenant_name) }}" class="navbar-item">Register</a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.logout', tenant_name=tenant_name) }}" class="navbar-item">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <!-- NAVBAR ENDS -->
+
+    <section>
+        {% block flashbar %}
+        <!-- FLASH BAR STARTS -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="notification {{ category }}">
+                        <button class="delete"></button>
+                        {{ message|capitalize }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <!-- FLASH BAR ENDS -->
+        {% endblock %}
+
+        <div class="hero-head">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% block scripts %}
+        {% endblock %}
+    </section>
+</body>
+
+</html>

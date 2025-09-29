@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <!-- FORM BODY STARTS HERE 
+    <form method="POST" action="/new/firstpartyclaim/casefile/{{ casefile_id }}"> -->
+    <form method="POST" action="{{ url_for('firstpartyclaim.input', tenant_name=tenant_name , casefile_id=casefile_id) }}">
+        <div id="first_party_claim_input_form">
+            <div class="box">
+                <h1 class="title">New 1st Party Claim</h1>
+                <!-- AUTO INSURANCE COMPANY POLICY NUMBER -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Auto Insurance Company</label>
+                            <div class="select">
+                                <select name="auto_insurance_id" required>
+                                    <option></option>
+                                    {% for auto_insurance_provider in auto_insurance_providers %}<option value="{{ auto_insurance_provider.id }}">{{ auto_insurance_provider.name }}</option>{% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Policy Number</label>
+                            <div class="control">
+                                <input class="input" type="text" name="policy_number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CLAIM STARTED CLAIM NUMBER IS STATEMENT -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Has a claim been started?</label>
+                            <div class="select">
+                                <select name="is_started">
+                                    <option></option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Claim Number</label>
+                            <div class="control">
+                                <input class="input" type="text" name="claim_number">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Has our client given a statement about this claim?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="is_statement">
+                                        <option></option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- MEDPAY -->
+                 <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Does the policy have MedPay?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="has_medpay">
+                                        <option></option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">How much MedPay?</label>
+                            <div class="control">
+                                <input class="input" type="number" name="medpay_amount">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- UM -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Does the policy have UM?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="has_um_coverage">
+                                        <option></option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">How much UM?</label>
+                            <div class="control">
+                                <input class="input" type="text" name="um_amount">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- LOR AND LOA -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Has LOR been sent?</label>
+                            <div class="select">
+                                <select name="is_lor_sent">
+                                    <option></option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Date of Last Request</label>
+                            <div class="control">
+                                <input class="input" type="date" name="last_request_date">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Has LOA been received?</label>
+                            <div class="select">
+                                <select name="is_loa_received">
+                                    <option></option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Have we received dec sheets?</label>
+                            <div class="select">
+                                <select name="is_dec_sheets_received">
+                                    <option></option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                <!-- NOTES-->
+                <div class="field">
+                    <label class="label">Claim Notes</label>
+                    <textarea class="textarea" name="notes"></textarea>
+                </div>
+                <!-- BUTTON -->
+                <div class="buttons is-right">
+                    <button class="button is-large">Create</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- FORM BODY ENDS HERE -->
+</div>
+{% endblock %}

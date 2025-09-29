@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- FORM BODY STARTS HERE 
+        <form method="POST" action="/new/healthadjuster"> -->
+        <form method="POST" action="{{ url_for('healthadjuster.input', tenant_name=tenant_name ) }}">
+        <div id="health_adjuster_form">
+            <div class="box">
+                <h1 class="title">New Health Adjuster</h1>
+                <!-- ADJUSTER NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="first_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Middle Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="middle_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="last_name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE EMAIL FAX -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="phone">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="email">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="fax">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PROVIDER -->
+                <div class="field">
+                    <label class="label">Health Insurance Carrier Name</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="health_insurance_id" required>
+                                <option value=""></option>
+                                {% for health_insurance_provider in health_insurance_providers %}<option value="{{ health_insurance_provider.id }}">{{ health_insurance_provider.name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Create</button>
+            </div>
+        </div>
+    </form>
+        <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

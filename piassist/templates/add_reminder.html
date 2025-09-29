@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .separate{
+        margin-top: 30px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h1 class="title is-4">Reminder Section</h1>
+        
+        <form method="POST" action="{{ url_for('casefile.send_reminder', tenant_name=tenant_name, casefile_id=casefile_id) }}">
+            <input type="hidden" name="client_id" value="{{ client.id }}">
+
+            <div class="separate">
+                <label for="reminder_type" class="form-label">Reminder Type</label>
+                <input type="text" name="reminder_type" class="input form-input" placeholder="Reminder Type.." required>
+            </div>
+
+            <div class="separate">
+                <label for="method" class="form-label">Method</label>
+                <select name="method" class="select form-select" required>
+                    <option value="email">Email</option>
+                    <option value="notification">Notification</option>
+                </select>
+            </div>
+
+            <div class="separate">
+                <label for="message" class="form-label">Message</label>
+                <textarea name="message" class="textarea form-textarea" placeholder="Enter reminder message" required></textarea>
+            </div>
+<div class="separate">
+            <button type="submit" class="button form-button">Send Reminder</button>
+</div>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Add your CSS and other styling here -->
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <h2>All Tenant Admins</h2>
+
+    {% if tenant_admins %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Tenant</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in tenant_admins %}
+                    <tr>
+                        <td>{{ admin.name }}</td>
+                        <td>{{ admin.email }}</td>
+                        <td>{{ admin.tenant_id }}</td> <!-- Assuming tenant_id is the tenant identifier -->
+                        <td>
+                            <!-- Optional actions, such as View, Edit, or Delete -->
+                            {% comment %} <a href="{{ url_for('auth.view_admin', admin_id=admin.id) }}">View</a>
+                            <a href="{{ url_for('auth.delete_admin', admin_id=admin.id) }}" onclick="return confirm('Are you sure?')">Delete</a> {% endcomment %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tenant admins found.</p>
+    {% endif %}
+</body>
+</html>

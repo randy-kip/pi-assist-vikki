@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- FORM BODY STARTS HERE -->
+        <div id="medical_bill_form">
+            <div class="box">
+                <h1 class="title">Bills and Records</h1>
+                <h2 class="subtitle">{{ medical_bill.client.full_name }} - {{ medical_bill.medical_provider.name }}</h2>
+               <!--<form method="POST" action="/medicalbill/client/{{ medical_bill.client_id }}/medicalprovider/{{ medical_bill.medical_provider_id }}">-->
+               <form method="POST" action="{{ url_for('medicalbill.details',client_id=client_id,medical_provider_id=medical_provider_id, tenant_name=tenant_name ) }}">
+                    <!-- BILL AND RECORD RECEIVED -->
+                    <div class="field is-horizontal">
+                        <div class="field-body">
+                            <div class="field">
+                                <label class="label">Date of Last Request</label>
+                                <div class="control">
+                                    <input class="input" type="date" value="{{ medical_bill.last_request_date}}" name="last_request_date">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Is bill received?</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="is_bill_received">
+                                            <option>{{ medical_bill.is_bill_received }}</option>
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Are records received?</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="is_record_received">
+                                            <option>{{ medical_bill.is_record_received }}</option>
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Bill/Record Expense</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.expense }}" name="expense">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BILL CALCULATIONS -->
+                    <div class="field is-horizontal">
+                        <div class="field-body">
+                            <div class="field">
+                                <label class="label">Total Billed</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.total_billed }}" name="total_billed">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Insurance Paid</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.insurance_paid }}" name="insurance_paid">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Ins/NI Adjusted</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.insurance_adjusted }}" name="insurance_adjusted">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">MedPay Paid</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.mp_paid }}" name="mp_paid">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Patient Paid</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.patient_paid }}" name="patient_paid">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Reduction</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="0.01" min="0" value="{{ medical_bill.reduction_amount }}" name="reduction_amount">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Total Due</label>
+                                <div class="content">
+                                    <p>{{ medical_bill.total_due }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- LIEN AND COLLECTIONS -->
+                    <div class="field is-horizontal">
+                        <div class="field-body">
+                            <div class="field">
+                                <label class="label">Is a lien filed?</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="is_lien_filed">
+                                            <option>{{ medical_bill.is_lien_filed }}</option>
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Is the bill in collections?</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="is_in_collections">
+                                            <option>{{ medical_bill.is_in_collections }}</option>
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BUTTON -->
+                    <div class="buttons is-right">
+                        <button class="button is-large">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Display totals below the form -->
+        <div class="box">
+            <h3 class="title">Total Summary for {{ medical_bill.medical_provider.name }}</h3>
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Total Insurance Paid</th>
+                        <th>Total MedPay Paid</th>
+                        <th>Total Patient Paid</th>
+                        <th>Total Reduction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ total_insurance_paid }}</td>
+                        <td>{{ total_mp_paid }}</td>
+                        <td>{{ total_patient_paid }}</td>
+                        <td>{{ total_reduction }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+    
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half">
+                <div class="buttons is-left">
+                    <a class="button is-large" href="{{ url_for('medicalbill.delete_bill',medical_provider_id=medical_bill.medical_provider_id,client_id=client_id, tenant_name=tenant_name ) }}"> Delete Bill </a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="buttons is-right">
+                    <a class="button is-large is-info" href="{{ url_for('drive_integration.generate_adhoc_reduction_request',medical_provider_id=medical_bill.medical_provider_id,client_id=client_id, tenant_name=tenant_name ) }}">Create Reduction Request </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

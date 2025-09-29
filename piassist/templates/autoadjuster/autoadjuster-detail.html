@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <!-- FORM BODY STARTS HERE -->
+    <form method="POST" action="{{ url_for('autoadjuster.details', tenant_name=tenant_name, auto_adjuster_id=auto_adjuster.id) }}">
+        <div id="auto_adjuster_form">
+            <div class="box">
+                <h1 class="title">Auto Adjuster Details</h1>
+                <!-- PROVIDER -->
+                <div class="field">
+                    <label class="label">Auto Insurance Carrier Name</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="auto_insurance_id">
+                                <option value="{{ auto_adjuster.auto_insurance_id }}">{{ auto_adjuster.employer.name }}</option>
+                                {% for auto_insurance_provider in auto_insurance_providers %}
+                                    <option value="{{ auto_insurance_provider.id }}">{{ auto_insurance_provider.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADJUSTER NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.first_name }}" name="first_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Middle Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.middle_name }}" name="middle_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.last_name }}" name="last_name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE EMAIL FAX -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.phone }}" name="phone">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.email }}" name="email">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.fax }}" name="fax">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADDRESS -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Street Address</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.street_address }}" name="street_address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">City</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.city }}" name="city">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.state }}" name="state">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Zip Code</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ auto_adjuster.zip_code }}" name="zip_code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BUTTON -->
+                <div class="buttons is-right">
+                    <button class="button is-large">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- FORM BODY ENDS HERE -->
+    <div class="box">
+        <div class="table-container">
+            <h1 class="subtitle">First Party Claims</h1>
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <td>Claim Number</td>
+                        <td>Case</td>
+                        <td>LOR Sent</td>
+                        <td>LOA Rec'd</td>
+                        <td>Dec Sheets Rec'd</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if first_party_claims is defined %}
+                    {% for first_party_claim in first_party_claims %}
+                    <tr>
+                        <td>{{ first_party_claim.claim_number }}</td>
+                        <td>{{ first_party_claim.casefile.case_label }}</td>
+                        <td>{{ first_party_claim.is_lor_sent }}</td>
+                        <td>{{ first_party_claim.is_loa_received }}</td>
+                        <td>{{ first_party_claim.is_dec_sheets_received }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container">
+            <h1 class="subtitle">Third Party Claims</h1>
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <td>Claim Number</td>
+                        <td>Defendant</td>
+                        <td>LOR Sent</td>
+                        <td>LOA Rec'd</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if third_party_claims is defined %}
+                    {% for third_party_claim in third_party_claims %}
+                    <tr>
+                        <td>{{ third_party_claim.claim_number }}</td>
+                        <td>{{ third_party_claim.defendant.full_name }}</td>
+                        <td>{{ third_party_claim.is_lor_sent }}</td>
+                        <td>{{ third_party_claim.is_loa_received }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

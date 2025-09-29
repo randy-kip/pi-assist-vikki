@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- FORM BODY STARTS HERE 
+        <form method="POST" action="/healthadjuster/{{ health_adjuster.id }}"> -->
+        <form method="POST" action="{{ url_for('healthadjuster.details', tenant_name=tenant_name , health_adjuster_id=health_adjuster.id) }}">
+        <div id="health_adjuster_form">
+            <div class="box">
+                <h1 class="title">Health Adjuster Details</h1>
+                <!-- ADJUSTER NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ health_adjuster.first_name }}" name="first_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Middle Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ health_adjuster.middle_name }}" name="middle_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ health_adjuster.last_name }}" name="last_name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE EMAIL FAX -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ health_adjuster.phone }}" name="phone">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ health_adjuster.email }}" name="email">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ health_adjuster.fax }}" name="fax">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PROVIDER -->
+                <div class="field">
+                    <label class="label">Health Insurance Carrier Name</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="health_insurance_id">
+                                <option value="{{ health_adjuster.health_insurance_id }}">{{ health_adjuster.health_insurance.name }}</option>
+                                {% for health_insurance_provider in health_insurance_providers %}<option value="{{ health_insurance_provider.id }}">{{ health_insurance_provider.name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>  
+                <!-- BUTTON -->
+                <div class="buttons is-right">
+                    <button class="button is-large">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!-- FORM BODY ENDS HERE -->
+        <div class="box">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Event Number</td>
+                            <td>Client</td>
+                            <td>HIPAA Sent</td>
+                            <td>LOR Sent</td>
+                            <td>Log Rec'd</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for claim in claims %}
+                        <tr>
+                            <td>{{ claim.event_number }}</td>
+                            <td>{{ claim.client.full_name }}</td>
+                            <td>{{ claim.is_hipaa_sent }}</td>
+                            <td>{{ claim.is_lor_sent }}</td>
+                            <td>{{ claim.is_log_received }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

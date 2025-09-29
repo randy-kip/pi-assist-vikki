@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+            <!-- FORM BODY STARTS HERE -->
+        <div id="client_form">
+            <div class="box">
+                <h1 class="title">New Client</h1>
+              <!---  <form method="POST" action="/new/client/casefile/{{ casefile_id }}">
+                 FULL NAME -->
+                <form method = "POST" action= "{{ url_for('client.input', tenant_name=tenant_name, casefile_id=casefile_id) }}">
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" name="first_name" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Middle Name</label>
+                            <div class="control">
+                                <input class="input" type="text" name="middle_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" name="last_name" required>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- DOB SSN MARITAL STATUS-->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Date of Birth</label>
+                            <div class="control">
+                                <input class="input" type="date" name="dob">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Social Security Number</label>
+                            <div class="control">
+                                <input class="input" type="text" name="ssn">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Marital Status</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="marital_status">
+                                        <option></option>
+                                        <option>Single</option>
+                                        <option>Married</option>
+                                        <option>Divorced</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Contact Information</h2>
+                <!-- MAILING ADDRESS -->
+                <div class="field">
+                    <label class="label">Street Address</label>
+                    <div class="control">
+                        <input class="input" type="text" name="street_address">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">City</label>
+                            <div class="control">
+                                <input class="input" type="text" name="city">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State</label>
+                            <div class="control">
+                                <input class="input" type="text" name="state">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Zip Code</label>
+                            <div class="control">
+                                <input class="input" type="text" name="zip_code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE NUMBERS-->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Primary Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" name="primary_phone">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Secondary Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" name="secondary_phone">
+                            </div>
+                    </div>
+                </div>
+                <!-- EMAIL -->
+                </div>
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" type="text" name="email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Accident Details</h2>
+                <!-- INJURIES -->
+                <div class="field">
+                    <label class="label">Injury description</label>
+                        <textarea class="textarea" rows="3" name="injuries"></textarea>
+                </div>
+                <!-- AMBULANCE AND HOSPITAL  -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Did they ride in an ambulance?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="rode_ambulance">
+                                        <option></option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Did they visit the hospital immediately?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="visited_hospital">
+                                        <option></option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Prior Accident/Injury Notes</h2>
+                <!-- PRIOR ACCIDENT -->
+                <div class="field">
+                    <label class="label">Were they in a prior accident?</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="had_prior_accident">
+                                <option></option>
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Prior accident description</label>
+                        <textarea class="textarea" rows="2" name="prior_accident_notes"></textarea>
+                </div>
+                <!-- PRIOR INJURY -->
+                <div class="field">
+                    <label class="label">Did they have prior injury?</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="had_prior_injury">
+                                <option></option>
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Prior injury description</label>
+                        <textarea class="textarea" rows="2" name="prior_injury_notes"></textarea>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Work Impact</h2>
+                <!-- WORK IMPACTED -->
+                <div class="field">
+                    <label class="label">Was the client's work impacted by the accident?</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="was_work_impacted">
+                                <option></option>
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Work impact description</label>
+                    <textarea class="textarea" rows="2" name="work_impacted_notes"></textarea>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Referral Information</h2>
+                <!-- REFERRER -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Who referred this client?</label>
+                            <div class="control">
+                                <input class="input" type="text" name="referrer">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">What is the referrer relationship?</label>
+                            <div class="control">
+                                <input class="input" type="text" name="referrer_relationship">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOTES -->
+            <div class="box">
+                <h2 class="subtitle">Client Notes</h2>
+                <textarea class="textarea" name="notes"></textarea>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Create</button>
+            </div>
+        </div>
+    </form>
+            <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

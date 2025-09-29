@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+            <!-- FORM BODY STARTS HERE -->
+        <div id="accident_form">
+            <div class="box">
+                <h1 class="title">Accident Details</h1>
+                <form method="POST" action="{{ url_for('casefile.accident_details', tenant_name=tenant_name , casefile_id=casefile.id) }}">
+                <!-- STATUS AND STAGE -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Case Stage</label>
+                            <div class="select">
+                                <select name="stage">
+                                    <option>{{ casefile.stage }}</option>
+                                    <option>Intake</option>
+                                    <option>Processing</option>
+                                    <option>Demand</option>
+                                    <option>Litigation</option>
+                                    <option>Closed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Case Status</label>
+                            <div class="select">
+                                <select name="status">
+                                    <option>{{ casefile.status }}</option>
+                                    <option>New</option>
+                                    <option>Incomplete</option>
+                                    <option>Treating</option>
+                                    <option>Awaiting B&R</option>
+                                    <option>Awaiting Subro</option>
+                                    <option>Ready for Demand</option>
+                                    <option>Negotiating</option>
+                                    <option>Closed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DOL TIME AND TYPE -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Date of Loss</label>
+                            <div class="control">
+                                <input class="input" type="date" value="{{ casefile.date_of_loss }}" name="date_of_loss">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Time of Wreck</label>
+                            <div class="control">
+                                <input class="input" type="time" value="{{ casefile.time_of_wreck }}" name="time_of_wreck">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Wreck Type</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="wreck_type">
+                                        <option>{{ casefile.wreck_type }}</option>
+                                        <option>T BONE</option>
+                                        <option>LANE CHANGE</option>
+                                        <option>REAR END</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- WRECK LOCATION -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Wreck Street</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.wreck_street }}" name="wreck_street">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Wreck City</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.wreck_city }}" name="wreck_city">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Wreck State</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.wreck_state }}" name="wreck_state">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Wreck County</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.wreck_county }}" name="wreck_county">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- WRECK DESCRIPTION -->
+                <div class="field">
+                    <label class="label">Wreck Description</label>
+                    <textarea class="textarea" name="wreck_description">{{ casefile.wreck_description }}</textarea>
+                </div>
+                <!-- POLICE INVOLVEMENT -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Did the police arrive?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="is_police_involved">
+                                        <option>{{ casefile.is_police_involved }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Police Force</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.police_force }}" name="police_force">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Is there a police report?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="is_police_report">
+                                        <option>{{ casefile.is_police_report }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Police Report Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.police_report_number }}" name="police_report_number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- VEHICLE INFORMATION -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Vehicle Description</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ casefile.vehicle_description }}" name="vehicle_description">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Vehicle Damage Level</label>
+                        <div class="control">
+                            <input class="input" type="number" value="{{ casefile.damage_level }}" name="damage_level">
+                        </div>
+                    </div>
+                </div>
+                <!-- NOTES -->
+                <h2 class="subtitle">Wreck Notes</h2>
+                <textarea class="textarea" name="wreck_notes">{{ casefile.wreck_notes }}</textarea>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Update</button>
+            </div>
+        </div>
+    </form>
+            <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

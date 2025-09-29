@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container has-text-centered">
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>
+            Health Adjuster
+          </th>
+          <th>
+            <span class="buttons is-right">
+              <a class="button" href="{{ url_for('healthadjuster.input' , tenant_name=tenant_name) }}">Add New Adjuster</a>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for health_adjuster in health_adjusters %}
+          <tr>
+           <!-- <td><a href="/healthadjuster/{{ health_adjuster.id }}">{{ health_adjuster.last_name }}, {{ health_adjuster.first_name }}</a></td> -->
+            <td><a href="{{ url_for('healthadjuster.details', tenant_name=tenant_name , health_adjuster_id=health_adjuster.id) }}">{{ health_adjuster.last_name }}, {{ health_adjuster.first_name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

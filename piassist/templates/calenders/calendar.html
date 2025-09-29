@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+    <h1>Calendar for Tenant: {{ tenant_name }}</h1>
+</header>
+
+<main>
+    <div id="calendar"></div>
+
+    <h2>Upcoming Reminders</h2>
+    <ul>
+        {% for reminder in reminders %}
+            <li>
+                <strong>{{ reminder.reminder_type }}</strong>: {{ reminder.reminder_date.strftime('%Y-%m-%d') }} 
+                {% if reminder.reminder_time %}
+                    at {{ reminder.reminder_time.strftime('%H:%M') }}
+                {% endif %}
+                <br>
+                <em>{{ reminder.notes or 'No notes' }}</em>
+            </li>
+        {% else %}
+            <li>No reminders scheduled.</li>
+        {% endfor %}
+    </ul>
+</main>
+
+<script>
+    // FullCalendar initialization
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                {% for reminder in reminders %}
+                {
+                    title: "{{ reminder.reminder_type }}",
+                    start: "{{ reminder.reminder_date }}",
+                    description: "{{ reminder.notes or '' }}"
+                },
+                {% endfor %}
+            ],
+            eventClick: function(info) {
+                alert('Reminder: ' + info.event.title + '\n' + info.event.extendedProps.description);
+            }
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,625 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="box">
+        <!-- START IDENTIFYING INFORMATION SECTION -->
+        <div id="identifying_information">
+            <!-- START IDENTIFYING TOPBAR -->
+           
+            <div id="topbar" class="block">
+                <div class="columns is-mobile">
+                    <div class="column">
+                        <p class="title"><a href="{{ url_for('casefile.accident_details',tenant_name=tenant_name,casefile_id=casefile.id)}}">{{ casefile.case_label }}</a></p>
+                    </div>
+                    <div class="column has-text-right">
+                        <p class="title">{{ casefile.stage }} : {{ casefile.status }}</p>
+                    </div>
+                </div>
+            </div>
+            <div></div>
+            <!-- END IDENTIFYING TOPBAR -->
+            <!-- START CLIENT IDENTIFYING INFORMATION SECTION -->
+            <div id="client-info">
+                <div class="columns is-mobile">
+                    <div class="column">
+                        <!-- Client Contact Details Goes Here-->
+                        <div class="columns is-mobile">
+                            <div class="column">
+                                <p class="subtitle">Clients</p>
+                            </div>
+                            <div class="column">
+                                <div class="buttons is-pulled-right">
+                                   <!-- <a class="button" href="/new/client/casefile/{{ casefile.id }}">New Client</a> -->
+                                    <a class = "button" href="{{ url_for('client.input',casefile_id=casefile.id, tenant_name=tenant_name ) }}">New client</a>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table is-fullwidth is-hoverable">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Date of Birth</td>
+                                    <td>Social Security Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for client in casefile.clients %}
+                                    <tr>
+                                        <!--<td><a href="/client/{{client.id}}">{{ client.full_name }}</a></td>-->
+                                        <td><a href="{{ url_for('client.details',client_id=client.id, tenant_name=tenant_name ) }}">{{ client.full_name}}</a></td>
+                                        {% if client.dob is none %}
+                                        <td></td>
+                                        {% else %}
+                                        <td>{{ client.dob.strftime("%m/%d/%Y") }}</td>
+                                        {% endif %}
+                                     <td>  {{ client.ssn }} </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+            <!-- END CLIENT IDENTIFYING INFORMATION SECTION-->
+            <!-- DEFENDANT INFORMATION HERE -->
+                        <div class="columns is-mobile">
+                            <div class="column">
+                                <p class="subtitle">Defendants</p>
+                            </div>
+                            <div class="column">
+                                <div class="buttons is-pulled-right">
+                                  <!-- <a class="button" href="/new/thirdpartyclaim/defendant/casefile/{{ casefile.id }}">New Defendant</a>-->
+                                   <a class="button" href="{{ url_for('thirdpartyclaim.input',casefile_id=casefile.id, tenant_name=tenant_name ) }}">New defendant</a>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table is-fullwidth is-hoverable">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Insurance Provider</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for defendant in casefile.defendants %}
+                                    <tr>
+                                        {% if defendant.full_name is none %}
+                                        <td></td>
+                                        <td></td>
+                                        {% else %}
+                                        <td>{{ defendant.full_name }}</td>
+                                        <td>{{ defendant.auto_insurance.name }}</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- DEFENDANT INFORMATION ENDS HERE -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="box">
+        <!-- END IDENTIFYING INFORMATION SECTION -->
+        <!-- START AUTO INSURANCE INFORMATION SECTION -->
+        <div id="auto-insurance-section">
+            <p class="subtitle">Auto Insurance</p>
+            <div class="columns">
+                <div class="column is-half">
+                    {% if casefile.first_party_claims[0] is defined %}
+                    {% for first_party_claim in casefile.first_party_claims %}
+                        <table class="table is-hoverable is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <th>1st Party</th>
+                                   <!-- <td><a href="/autoinsurance/view/{{ first_party_claim.auto_insurance_id }}" target="_blank">{{ first_party_claim.auto_insurance.name }}</td>-->
+                                    <td><a href="{{ url_for('autoinsurance.view_details',tenant_name=tenant_name,auto_insurance_id=first_party_claim.auto_insurance_id)}}">{{ first_party_claim.auto_insurance.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Adjuster</th>
+                                    <td>{{ first_party_claim.auto_adjuster.full_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{{ first_party_claim.auto_adjuster.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fax</th>
+                                    <td>{{ first_party_claim.auto_adjuster.fax }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ first_party_claim.auto_adjuster.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Claim No</th>
+                                    <td>{{ first_party_claim.claim_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th>MedPay Amount</th>
+                                    <td>{{ first_party_claim.medpay_amount }}</td>
+                                </tr>
+                                <tr>
+                                    <th>UM Amount</th>
+                                    <td>{{ first_party_claim.um_amount }}</td>
+                                </tr>
+                                <tr>
+                                    <th>LOR Sent?</th>
+                                    <td>{{ first_party_claim.is_lor_sent }}</td>
+                                </tr>
+                                {% if first_party_claim.last_request_date is none %}
+                                <tr>
+                                    <th>LOR Sent Date</th>
+                                    <td></td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <th>LOR Sent Date</th>
+                                    <td>{{ first_party_claim.last_request_date.strftime("%m/%d/%y") }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <th>LOA Rec'd?</th>
+                                    <td>{{ first_party_claim.is_loa_received }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Dec Sheets Rec'd?</th>
+                                    <td>{{ first_party_claim.is_dec_sheets_received }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="buttons">
+                        
+                            <a class ="button" href="{{ url_for('firstpartyclaim.details',casefile_id=casefile.id,auto_insurance_id=first_party_claim.auto_insurance_id, tenant_name=tenant_name ) }}">Claim Details</a>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <table class="table is-hoverable is-fullwidth">
+                        <tbody>
+                            <tr>
+                                <th>1st Party</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Adjuster</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Fax</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Claim No</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>MedPay Amount</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>UM Amount</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>LOR Sent?</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>LOR Sent Date</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>LOA Rec'd?</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Dec Sheets Rec'd?</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    <div class="buttons">
+                       <!-- <a class="button" href="/new/firstpartyclaim/casefile/{{ casefile.id }}">New Claim</a> -->
+                        <a class="button" href="{{ url_for('firstpartyclaim.input',casefile_id=casefile.id, tenant_name=tenant_name ) }}">New Claim</a>
+                    </div>
+                    
+                </div>
+                <div class="column">
+                    {% for defendant in casefile.defendants %}
+                        <table class="table is-hoverable is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <th>3rd Party</th>
+<!--<td><a href="/autoinsurance/view/{{ defendant.auto_insurance_id }}" target="_blank">{{ defendant.auto_insurance.name }}</a></td>-->
+                  <td><a href="{{ url_for('autoinsurance.view_details', tenant_name=tenant_name,auto_insurance_id=auto_insurance_id)}}">{{ defendant.auto_insurance.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Adjuster</th>
+                                    {% if defendant.auto_claim.auto_adjuster is defined %}
+                                    <td>{{ defendant.auto_claim.auto_adjuster.full_name }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    {% if defendant.auto_claim.auto_adjuster is defined %}
+                                    <td>{{ defendant.auto_claim.auto_adjuster.phone }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Fax</th>
+                                    {% if defendant.auto_claim.auto_adjuster is defined %}
+                                    <td>{{ defendant.auto_claim.auto_adjuster.fax }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    {% if defendant.auto_claim.auto_adjuster is defined %}
+                                    <td>{{ defendant.auto_claim.auto_adjuster.email }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Claim No</th>
+                                    <td>{{ defendant.auto_claim.claim_number}}</td>
+                                </tr>
+                                <tr>
+                                    <th>LOR Sent?</th>
+                                    <td>{{ defendant.auto_claim.is_lor_sent}}</td>
+                                </tr>
+                                <tr>
+                                    <th>LOR Sent Date</th>
+                                    {% if defendant.auto_claim.last_request_date is none %}
+                                    <td></td>
+                                    {% elif defendant.auto_claim.last_request_date is defined %}
+                                    <td>{{ defendant.auto_claim.last_request_date.strftime("%m/%d/%y") }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>LOA Rec'd?</th>
+                                    <td>{{ defendant.auto_claim.is_loa_received}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="buttons">
+                            <!--<a class="button" href="/defendant/{{ defendant.id }}/thirdpartyclaim/{{ defendant.auto_claim.auto_insurance_id }}">Claim Details</a>-->
+                            <a class="button" href="{{ url_for('thirdpartyclaim.details',defendant_id=defendant.id,auto_insurance_id=auto_insurance_id, tenant_name=tenant_name ) }}">Claim details</a>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+        <!-- END AUTO INSURANCE INFORMATION SECTION -->
+        <!-- START MEDICAL PROVIDERS SECTION -->
+        <div id="bills-section">
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="subtitle">Bills and Records</p>
+                </div>
+                <div class="column">
+                    <div class="buttons is-pulled-right">
+                       <!-- <a class="button" href="/new/medicalbill/casefile/{{ casefile.id }}">New Medical Bill</a>-->
+                        <a class="button" href="{{ url_for('medicalbill.input',casefile_id=casefile.id, tenant_name=tenant_name ) }}">New Medical bill</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="table is-fullwidth is-hoverable">
+                    <thead>
+                        <tr>
+                            <td>Client</td>
+                            <td>Provider</td>
+                            <td>Last Request Date</td>
+                            <td>Bill Rec'd?</td>
+                            <td>Records Rec'd?</td>
+                            <td>Total Billed</td>
+                            <td>Ins Pd</td>
+                            <td>Adjusted</td>
+                            <td>MP Pd</td>
+                            <td>Pt Pd</td>
+                            <td>Reduced</td>
+                            <td>Total Due</td>
+                            <td>Lien?</td>
+                            <td>Collections?</td>
+                            <td>Expense</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in casefile.clients %}
+                            {% for medical_bill in client.medical_bills %}
+                            <tr>
+                                <!--<td><a href="/medicalbill/client/{{ client.id }}/medicalprovider/{{ medical_bill.medical_provider_id }}">{{ client.full_name }}</a></td>-->
+                                <td><a href="{{ url_for('medicalbill.details', tenant_name=tenant_name,medical_provider_id=medical_provider_id,client_id=client.id ) }}">{{ client.full_name}}</td>
+                                <!--<td><a href="/medprovider/view/{{ medical_bill.medical_provider_id }}" target="_blank">{{ medical_bill.medical_provider.name }}</a></td>-->
+                                <td><a href="{{ url_for('medprovider.view_details',tenant_name=tenant_name,medical_provider_id=medical_bill.medical_provider_id)}}">{{medical_bill.medical_provider.name}}</td>
+                                {% if medical_bill.last_request_date is none %}
+                                    <td></td>
+                                {% elif medical_bill.last_request_date is defined %}
+                                    <td>{{ medical_bill.last_request_date.strftime("%m/%d/%y") }}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                                <td>{{ medical_bill.is_bill_received }}</td>
+                                <td>{{ medical_bill.is_record_received }}</td>
+                                <td>{{ medical_bill.total_billed | format_currency }}</td>
+                                <td>{{ medical_bill.insurance_paid | format_currency }}</td>
+                                <td>{{ medical_bill.insurance_adjusted | format_currency }}</td>
+                                <td>{{ medical_bill.mp_paid | format_currency }}</td>
+                                <td>{{ medical_bill.patient_paid | format_currency }}</td>
+                                <td>{{ medical_bill.reduction_amount | format_currency }}</td>
+                                <td>{{ medical_bill.total_due | format_currency }}</td>
+                                <td>{{ medical_bill.is_lien_filed }}</td>
+                                <td>{{ medical_bill.is_in_collections }}</td>
+                                <td>{{ medical_bill.expense | format_currency }}</td>
+                              <!--  <td><a class="button" href="/generate-adhoc-medical-bill-hipaa/client/{{ client.id }}/medprovider/{{ medical_bill.medical_provider_id}}">Create HIPAA</a></td>-->
+                                <td><a class="button" href="{{ url_for('drive_integration.generate_adhoc_medical_hipaa',tenant_name=tenant_name,client_id=client.id,medical_provider_id=medical_provider_id)}}">Create HIPAA</a></td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        <!-- END MEDICAL PROVIDERS SECTION-->
+        <!-- START SUBROGATION SECTION -->
+        <div class="box">
+        <div id="subrogation-section">
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="subtitle">Subrogation</p>
+                </div>
+                <div class="column">
+                    <div class="buttons is-pulled-right">
+                     <!--   <a class="button" href="/new/healthclaim/casefile/{{ casefile.id }}">New Health Claim</a>-->
+                        <a class="button" href="{{ url_for('healthclaim.input',casefile_id=casefile.id, tenant_name=tenant_name ) }}">New Health Claim</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="table is-fullwidth is-hoverable">
+                    <thead>
+                        <tr>
+                            <td>Client</td>
+                            <td>Provider</td>
+                            <td>Event Number</td>
+                            <td>HIPAA Sent?</td>
+                            <td>LOR Sent?</td>
+                            <td>Last Request Date</td>
+                            <td>Log Rec'd?</td>
+                            <td>Total Due</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in casefile.clients %}
+                            {% for health_claim in client.health_claims %}
+                            <tr>
+                            <!--  <td><a href="/healthclaim/client/{{ client.id }}/healthinsurance/{{ health_claim.health_insurance_id }}">{{ client.full_name }}</a></td> -->
+                              <td><a href="{{ url_for('healthclaim.details',tenant_name=tenant_name,health_insurance_id=health_insurance_id,client_id=client.id)}}">{{ client.full_name}}</td>
+                             <!--  <td><a href="/healthinsurance/view/{{ health_claim.health_insurance_id }}" target="_blank">{{ health_claim.health_insurance.name }}</a></td>-->
+                               <td><a href="{{ url_for('healthinsurance.view_details' ,tenant_name=tenant_name, health_insurance_id=health_insurance_id)}}">{{ health_claim.health_insurance.name }}</td>
+                                <td>{{ health_claim.event_number }}</td>
+                                <td>{{ health_claim.is_hipaa_sent}}</td>
+                                <td>{{ health_claim.is_lor_sent }}</td>
+                                {% if health_claim.last_request_date is none %}
+                                    <td></td>
+                                {% elif health_claim.last_request_date is defined %}
+                                    <td>{{ health_claim.last_request_date.strftime("%m/%d/%y") }}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                                <td>{{ health_claim.is_log_received }}</td>
+                                <td>{{ health_claim.total_due | format_currency }}</td>
+                               <!-- <td><a class="button" href="/generate-adhoc-health-claim-hipaa/client/{{ client.id }}/healthinsurance/{{ health_claim.health_insurance_id }}">Create HIPAA</a></td>-->
+                                <td><a class="button" href="{{ url_for('drive_integration.generate_adhoc_health_hipaa',tenant_name=tenant_name,client_id=client.id,health_insurance_id=health_insurance_id)}}">Create HIPAA</a></td>
+                               <!-- <td><a class="button" href="/generate-adhoc-subrogation-lor/client/{{ client.id }}/healthinsurer/{{ health_claim.health_insurance_id}}">Create LOR</a></td>-->
+                                <td><a class="button" href="{{ url_for('drive_integration.generate_adhoc_subrogation_lor', tenant_name=tenant_name,client_id=client.id,health_insurance_id=health_insurance_id) }}">Create LOR</a></td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        <!-- END SUBROGATION SECTION -->
+        <!-- START WORKLOG SECTION-->
+        <div class="box">
+        <div id="log-section">
+            <div class="columns is-mobile">
+                <div class="column">
+                    <p class="subtitle">Work Log</p>
+                </div>
+                <div class="column">
+                    <div class="buttons is-pulled-right">
+                        <a class="button" id="worklog-modal-button" onclick="document.querySelector('#worklog-modal').classList.toggle('is-active');">New Entry</a>
+                        {% if current_user.is_admin %}
+                    <!--   <a class="button" href="/worklog-index/{{ casefile.id }}" target="_blank">Edit Entries</a>-->
+                       <a class="button" href="{{ url_for('casefile.worklog_index',tenant_name=tenant_name,casefile_id=casefile.id)}}">Edit Entries</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="table is-fullwidth is-hoverable">
+                    <thead>
+                        <tr>
+                            <td>Message</td>
+                            <td>User</td>
+                            <td>Timestamp</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in casefile.entries|sort(reverse=true, attribute='utc_timestamp') %}
+                            <tr>
+                                <td>{{ entry.description }}</td>
+                                <td>{{ entry.member.name }}</td>
+                                <td>{{ entry.central_datetime().strftime("%I:%M %p on %m/%d/%y") }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <!-- END WORKLOG SECTION-->
+        <!-- START DANGER SECTION -->
+    <div class="box has-background-grey-light">
+        <p class="title has-text-centered">CAREFUL DOWN HERE</p>
+        <div class="columns">
+            <div class="column is-one-third has-text-centered">
+                {% if not casefile.main_folder_id %}
+               <!-- <a class="button" href="/casefile/{{ casefile.id }}/google/new/skeleton">Create Case Skeleton</a> -->
+                    <a class="button" href="{{ url_for('drive_integration.generate_case_skeleton', tenant_name=tenant_name,casefile_id=casefile.id) }}">Create Case Skeleton </a>
+                {% else %}
+               <!-- <a class="button" href="/casefile/{{ casefile.id }}/google/new/skeleton" disabled>Create Case Skeleton</a> -->
+                <a class="button" href="{{ url_for('drive_integration.generate_case_skeleton',tenant_name=tenant_name,casefile_id=casefile.id)}}">Create Case Skeleton</a>
+
+                {% endif %}
+            </div>
+            <div class="column is-one-third has-text-centered">
+                <div class="dropdown" id="bulk-dropdown">
+                    <div class="dropdown-trigger">
+                        {% if casefile.main_folder_id %}
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" onclick="document.querySelector('#bulk-dropdown').classList.toggle('is-active');">
+                            <span>Bulk Document Creation</span>
+                            <span class="icon is-small">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        {% else %}
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" onclick="document.querySelector('#bulk-dropdown').classList.toggle('is-active');" disabled>
+                            <span>Bulk Document Creation</span>
+                            <span class="icon is-small">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                          <!--  <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-contract">Create All Contracts</a> -->
+                           <a class="dropdown-item" href="{{ url_for('drive_integration.copy_contract',tenant_name=tenant_name, casefile_id=casefile.id)}}">Create All Contracts </a>
+                          <!--  <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-client-engagement-letter">Create All Client Engagement Letters</a>-->
+                            <a class="dropdown-item" href="{{ url_for('drive_integration.copy_client_engagement_letter', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Client Engagement Letters </a>
+
+                            <!-- BEGIN FIX -->
+                            {% if casefile.first_party_claims[0] is defined %}
+                                {% if not casefile.first_party_claims[0].auto_adjuster_id %}
+                              <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-first-party-lor" style="pointer-events:none">Create All First Party LORs</a>-->
+                               <a class="dropdown-item" href="{{ url_for('drive_integration.copy_first_party_lor',tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All First Party LORs</a>
+                               
+                                <!--<a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-medpay-demands" style="pointer-events:none">Create All Medpay Demands</a>-->
+                                <a class="dropdown-item" href="{{ url_for('drive_integration.copy_medpay_demand',tenant_name=tenant_name, casefile_id=casefile.id)}}">Create All MedPay demands</a>
+                                {% else %}
+                               <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-first-party-lor">Create All First Party LORs</a>-->
+                                <a class="dropdown-item" href="{{ url_for('drive_integration.copy_first_party_lor', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All first Party LORS</a>
+                               
+                               <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-medpay-demands">Create All Medpay Demands</a>-->
+                                <a class="dropdown-item" href="{{ url_for('drive_integration.copy_medpay_demand',tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Medpay Demands</a>
+                                {% endif %}
+                            {% endif %}
+                            {% if casefile.defendants[0] is defined %}
+                                {% if not casefile.defendants[0].auto_claim.auto_adjuster_id %}
+                               <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-third-party-lor" style="pointer-events:none">Create All Third Party LORs</a>-->
+                                <a class="dropdown-item" href={{ url_for('drive_integration.copy_third_party_lor', tenant_name=tenant_name,casefile_id=casefile.id)}}>Create All third Party LORs</a>
+                                <!--<a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-demands" style="pointer-events:none">Create All Demands</a>-->
+                                <a class="dropdown-item" href="{{ url_for('drive_integration.copy_demand',tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Demands</a>
+
+                                {% else %}
+                               <!--<a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-third-party-lor">Create All Third Party LORs</a>-->
+                               <a class="dropdown-item" href="{{ url_for('drive_integration.copy_third_party_lor', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Third Party LORs</a>
+                               <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-all-demands">Create All Demands</a>-->
+                                <a class="dropdown-item" href="{{ url_for('drive_integration.copy_demand',tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Demands</a>
+
+
+                                {% endif %}
+                            {% endif %}
+                            <!-- END FIX -->
+                           <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-proposed-settlement-statements">Create All PSS</a>-->
+                            <a class="dropdown-item" href="{{ url_for('drive_integration.copy_proposed_settlement_statement', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All PSS</a>
+                           <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/generate-all-medical-bill-hipaas">Create All Medical Bill HIPAAs</a>-->
+                            <a class="dropdown-item" href="{{ url_for('drive_integration.generate_all_medical_hipaas', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Medical HIPAAs</a>
+                           <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-subrogation-lor">Create All Subrogation LORs</a>-->
+                            <a class="dropdown-item" href="{{ url_for('drive_integration.copy_subrogation_lor', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Subrogation LORs</a>
+                           <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/generate-all-health-claim-hipaas">Create All Subrogation HIPAAs</a>-->
+                            <a class="dropdown=item" href="{{ url_for('drive_integration.generate_all_health_hipaas', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create All Subrogation HIPAAs</a>
+                           <!--<a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-check-payment-log">Create Check Payment Log</a>-->
+                             <a class="dropdown-item" href="{{ url_for('drive_integration.copy_check_payment_log', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create Check Payment Log</a>
+                           <!-- <a class="dropdown-item" href="/casefile/{{ casefile.id }}/copy-withdrawal-letter">Create Withdrawal Letter</a>-->
+                            <a class="dropdown-item" href="{{ url_for('drive_integration.copy_withdrawal_letter', tenant_name=tenant_name,casefile_id=casefile.id)}}">Create Withdrawal Letter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column has-text-centered">
+                <a class="button is-danger" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');">DELETE CASE</a>
+            </div>
+        </div>
+    </div>
+        <!-- END DANGER SECTION-->
+        <!-- WORKLOG MODAL -->
+        <div id="worklog-modal" class="modal">
+            <div class="modal-background" onclick="document.querySelector('#worklog-modal').classList.toggle('is-active');"></div>
+            <div class="modal-card">
+                <section class="modal-card-body">
+                    <p class="title">New Entry</p>
+                   <!--<form method="POST" action="/new-entry/{{ casefile.id }}">-->
+                   <form method="POST" action="{{ url_for('casefile.add_entry',casefile_id=casefile.id, tenant_name=tenant_name ) }}">
+                        <div class="field">
+                            <div class="control">
+                                <textarea name="log_entry" class="textarea" placeholder="Enter message here"></textarea>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <p>User: {{ current_user.name }} </p>
+                        </div>
+                        <div class="buttons is-right">
+                            <button class="button is-large">Submit</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <button class="modal-close is-large" aria-label="close" onclick="document.querySelector('#worklog-modal').classList.toggle('is-active');"></button>
+        </div>
+        <!-- DANGER MODAL -->
+        <div id="danger-modal" class="modal">
+            <div class="modal-background" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');"></div>
+            <div class="modal-card">
+                <section class="modal-card-body">
+                    <p class="title has-text-centered">WARNING</p>
+                    <p class="subtitle has-text-centered">You are about to delete this case in its entirety. Are you sure you want to do that?</p>
+                    <div class="buttons has-addons is-centered">
+                       <!-- <a class="button is-danger" href="/delete/casefile/{{ casefile.id }}">DELETE</a>-->
+                       <a class="button is-danger" href="{{ url_for('casefile.delete', tenant_name=tenant_name,casefile_id=casefile.id)}}">DELETE</a>
+
+                        <button class="button" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');">Cancel</button>
+                    </div>
+                </section>
+            </div>
+            <button class="modal-close is-large" aria-label="close" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');"></button>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div id="health_insurance_form">
+            <div class="box">
+                <h1 class="title">Health Insurance Provider Details</h1>
+                <!-- PROVIDER NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Provider</label>
+                            <div class="content">
+                                <p>{{ health_insurance.name }}</p>
+                            </div>
+                        </div>
+                         <!--REQUEST METHOD -->
+                         <div class="field">
+                            <label class="label">Request Method</label>
+                            <div class="content">
+                                <p>{{ health_insurance.request_method }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- STREET ADDRESS -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Street Address</label>
+                            <div class="content">
+                                <p>{{ health_insurance.street_address }} {{ health_insurance.street_address_2 }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">City</label>
+                            <div class="content">
+                                <p>{{ health_insurance.city }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State</label>
+                            <div class="content">
+                                <p>{{ health_insurance.state }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Zip Code</label>
+                            <div class="content">
+                               <p>{{ health_insurance.zip_code }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Phone Numbers</h2>
+                <!-- PHONE 1 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone 1 Type</label>
+                            <div class="content">
+                                <p>{{ health_insurance.phone_1_type }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Phone 1 Number</label>
+                            <div class="content">
+                                <p>{{ health_insurance.phone_1 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE 2 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone 2 Type</label>
+                            <div class="content">
+                               <p>{{ health_insurance.phone_2_type }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Phone 2 Number</label>
+                            <div class="content">
+                                <p>{{ health_insurance.phone_2 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            <div class="box">
+                <h2 class="subtitle">Fax Numbers</h2>
+                <!-- FAX 1 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Fax 1 Type</label>
+                            <div class="content">
+                                <p>{{ health_insurance.fax_1_type }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax 1 Number</label>
+                            <div class="content">
+                                <p>{{ health_insurance.fax_1 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAX 2 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Fax 2 Type</label>
+                            <div class="content">
+                                <p>{{ health_insurance.fax_2_type }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax 2 Number</label>
+                            <div class="content">
+                                <p>{{ health_insurance.fax_2 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+            <div class="box">
+                <h2 class="subtitle">Email Addresses</h2>
+                <!-- EMAIL 1 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Email 1 Type</label>
+                            <div class="content">
+                                <p>{{ health_insurance.email_1_type }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email 1 Address</label>
+                            <div class="content">
+                                <p>{{ health_insurance.email_1 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- EMAIL 2 -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Email 2 Type</label>
+                            <div class="content">
+                                <p>{{ health_insurance.email_2_type }}</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email 2 Address</label>
+                            <div class="content">
+                                <p>{{ health_insurance.email_2 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- NOTES -->
+            <div class="box">
+                <h2 class="subtitle"> Provider Notes</h2>
+                <p>{{ health_insurance.notes }}</p>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <a class="button is-large is-info" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');">Edit Provider</a>
+            </div>
+        </div>
+        <!-- DANGER MODAL -->
+        <div id="danger-modal" class="modal">
+            <div class="modal-background" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');"></div>
+            <div class="modal-card">
+                <section class="modal-card-body">
+                    <p class="title has-text-centered">WARNING</p>
+                    <p class="subtitle has-text-centered">You are about to edit this health insurance provider's details across the app. Are you sure you want to do that?</p>
+                    <div class="buttons has-addons is-centered">
+                      <!--<a class="button is-info" href="/healthinsurance/{{ health_insurance.id }}">EDIT</a>-->
+                      <a class="button is-info" href="{{ url_for('healthinsurance.details',tenant_name=tenant_name,health_insurance_id=health_insurance.id)}}">EDIT</a>
+                        <button class="button" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');">Cancel</button>
+                    </div>
+                </section>
+            </div>
+            <button class="modal-close is-large" aria-label="close" onclick="document.querySelector('#danger-modal').classList.toggle('is-active');"></button>
+        </div>
+    </div>
+{% endblock %}

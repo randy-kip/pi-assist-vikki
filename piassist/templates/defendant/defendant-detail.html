@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- FORM BODY STARTS HERE -->
+        <form method="POST" action="/defendant/{{ defendant.id }}">
+        <div id="defendant_form">
+            <div class="box">
+                <h1 class="title">Defendant Details</h1>
+                <!-- DEFENDANT NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ defendant.first_name }}" name="first_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ defendant.last_name }}" name="last_name">
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- IS POLICYHOLDER -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Is the defendant the policyholder?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="is_policyholder">
+                                        <option>{{ defendant.is_policyholder }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                                <label class="label">Policyholder First Name</label>
+                                <div class="control">
+                                    <input class="input" type="text" value="{{ defendant.policyholder_first_name }}" name="policyholder_first_name">
+                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Policyholder Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ defendant.policyholder_last_name }}" name="policyholder_last_name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CARRIER POLICY NUMBER-->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Auto Carrier</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ defendant.auto_insurance.auto_insurance.name }}" name="auto_carrier">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Policy Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ defendant.policy_number }}" name="policy_number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- AMBULANCE AND LIABILITY -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Did anyone in their party leave in an ambulance?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="rode_ambulance">
+                                        <option>{{ defendant.rode_ambulance }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">How much liability have they accepted?</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ defendant.liability }}" name="liability">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- NOTES -->
+            <div class="box">
+                <label class="label">Defendant Notes</label>
+                <textarea class="textarea" name="notes">{{ defendant.notes }}</textarea>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Update</button>
+            </div>
+        </div>
+    </form>
+        <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

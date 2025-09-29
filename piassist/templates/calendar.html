@@ -1,0 +1,179 @@
+<!---
+<style>
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.calendar-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#calendar-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+#system {
+    padding: 10px;
+}
+
+.add-event-btn {
+    display: block;
+    width: 150px;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 5px;
+}
+</style>
+<div class="container">
+    <h1>Calendar for {{ tenant_name }}</h1>
+    
+     FullCalendar container 
+    <div id="system"></div>
+    
+    <a href="{{ url_for('casefile.add_event', tenant_name=tenant_name) }}" class="btn btn-primary">Add Event</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#system').fullCalendar({
+            events: {{ events | tojson }},
+            editable: true,
+            droppable: true,
+            eventClick: function(event) {
+                // Add logic to view/edit event
+                window.location.href = '/{{ tenant_name }}/calendar/edit_event/' + event.id;
+            }
+        });
+    });
+</script>
+ --!>
+<!-->
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.container {
+    
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.calendar-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#calendar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#system {
+    max-width: 100%;
+    margin: 50px;
+    
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.fc-day-grid-container {
+    padding: 10px;
+}
+
+
+
+.fc-day {
+    height: 90px; /* Ensures uniform cell height */
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 50px;
+    
+}
+
+.fc-day-number {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+    margin-left: 50px;
+}
+
+.fc-day-header {
+    padding: 0 30px; /* Adds padding between each day name */
+    text-align: center; /* Center-aligns the day names */
+    font-weight: bold; /* Optional: Makes the day names bold */
+}
+
+.fc-day-grid .fc-row {
+    border-bottom: 1px solid #ddd; /* Separates rows properly */
+    margin-bottom:-40px;
+}
+
+.add-event-btn {
+    display: block;
+    width: 150px;
+    text-align: center;
+    margin: 10px auto;
+    
+    border-radius: 5px;
+}
+
+
+</style>
+
+<div class="container">
+    <h1 class="calendar-title">Calendar for {{ tenant_name }}</h1>
+    <a href="{{ url_for('casefile.add_event', tenant_name=tenant_name) }}" class="btn btn-primary add-event-btn">
+        Add Event
+    </a>
+    
+    <div id="calendar-container">
+        <div id="system"></div>
+    </div>
+    
+    
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#system').fullCalendar({
+            header: {
+                left: 'today prev,next',
+                center: 'title',
+                //right: 'month,agendaWeek,agendaDay'
+               // right:'month'
+                right:''
+            },
+            themeSystem: 'bootstrap3',
+            height: 'auto', // Ensures proper height
+            contentHeight: 'auto',
+            aspectRatio: 1.35, // Adjusts cell spacing
+           eventLimit: true, // Show "more" link when too many events
+            events: {{ events | tojson }},
+            editable: true,
+            droppable:true,
+            eventClick: function(event) {
+                window.location.href = '/{{ tenant_name }}/calendar/edit_event/' + event.id;
+            }
+        });
+    });
+</script>
+{% endblock %}

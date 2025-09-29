@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container has-text-centered">
+    
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>
+            Health Insurance Provider
+          </th>
+          <th>
+            <span class="buttons is-right">
+              <a class="button" href="{{ url_for('healthinsurance.input',tenant_name=tenant_name) }}">Add New Provider</a>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for health_insurance in health_insurances %}
+          <tr>
+            <!-- <td><a href="/healthinsurance/{{ health_insurance.id }}">{{ health_insurance.name }}</a></td> -->
+             <td><a href="{{ url_for('healthinsurance.details', tenant_name=tenant_name , health_insurance_id=health_insurance.id ) }}">{{ health_insurance.name }}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

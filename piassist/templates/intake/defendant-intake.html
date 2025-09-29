@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="title">Defendant Information</h1>
+    <div class="box">
+       <!--<form method="POST" action="/intake/defendant"> -->
+       <form method="POST" action="{{ url_for('intake.defendant', tenant_name=tenant_name ) }}">
+            <input type="hidden" name="case_id" value="{{ case_id }}">
+            <input type="hidden" name="defendant_number" value="{{ defendant_number }}">
+            <input type="hidden" name="defendant_count" value="{{ defendant_count }}">
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- first_name (MODELED)-->
+                <div class="field">
+                    <label class="label">First Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="first_name">
+                    </div>
+                </div>
+                <!-- last_name (MODELED) -->
+                <div class="field">
+                    <label class="label">Last Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="last_name">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- is_policyholder (radio BOOLEAN) (MODELED) -->
+        <div class="field">
+            <label class="label">Is the name of the insured on the policy different than the driver?</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="is_policyholder" value="True">
+                    True
+                </label>
+                <label class="radio">
+                    <input type="radio" name="is_policyholder" value="False">
+                    False
+                </label>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- policyholder_first_name (MODELED) -->
+                <div class="field">
+                    <label class="label">Policyholder's First Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="policyholder_first_name">
+                    </div>
+                </div>
+                <!-- policyholder_last_name (MODELED) -->
+                <div class="field">
+                    <label class="label">Policyholder's Last Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="policyholder_last_name">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- rode_ambulance (radio BOOLEAN) (MODELED) -->
+        <div class="field">
+            <label class="label">Did anyone in their party leave in an ambulance?</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="rode_ambulance" value="True">
+                    True
+                </label>
+                <label class="radio">
+                    <input type="radio" name="rode_ambulance" value="False">
+                    False
+                </label>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- defendant_auto_carrier (MODELED) -->
+                <div class="field">
+                    <label class="label">Auto/Liability Insurance Carrier Name</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="auto_insurance_id">
+                                <option value=""></option>
+                                {% for auto_insurance_provider in auto_insurance_providers %}<option value="{{ auto_insurance_provider.id }}">{{ auto_insurance_provider.name }}</option> {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- defendant_policy_number (MODELED) -->
+                <div class="field">
+                    <label class="label">Policy Number</label>
+                    <div class="control">
+                        <input class="input" type="text" name="policy_number">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- defendant_claim_started (radio BOOLEAN) (MODELED) -->
+                <div class="field">
+                    <label class="label">Has a claim been started for their insurance?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="is_started" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="is_started" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <!-- has_client_statement (radio BOOLEAN) (MODELED) -->
+                <div class="field">
+                    <label class="label">Did our client give a statement to the adjuster?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="is_statement" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="is_statement" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- third_party_claim_number (MODELED) -->
+                <div class="field">
+                    <label class="label">Claim Number</label>
+                    <div class="control">
+                        <input class="input" type="text" name="claim_number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- defendant_notes (textarea) (MODELED)-->
+        <div class="field">
+            <label class="label">Additional defendant information</label>
+            <div class="control">
+                <textarea name="notes"  class="textarea" rows="10"></textarea>
+            </div>
+        </div>
+        <!-- SUBMIT BUTTON-->
+        <div class="field">
+            <div class="buttons is-right">
+                <button class="button is-inverted is-large">FINISH</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}

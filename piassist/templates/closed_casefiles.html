@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+  <div class="container has-text-centered">
+    
+    
+    <h2 class="title">Closed Case Files</h2>
+
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Stage</th>
+          <th>Status</th>
+          <th>Date of Loss</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for casefile in casefiles %}
+          {% if casefile.closed %}
+          <tr>
+            <td><a href="{{ url_for('casefile.details', tenant_name=tenant_name,casefile_id=casefile.id) }}">{{ casefile.case_label }}</a></td>
+            <td>{{ casefile.stage }}</td>
+            <td>{{ casefile.status }}</td>
+            <td>{{ casefile.date_of_loss.strftime("%m/%d/%Y") }}</td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

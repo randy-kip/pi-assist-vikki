@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <table class="table is-fullwidth is-hoverable">
+            <thead>
+                <tr>
+                    <td>Message</td>
+                    <td>User</td>
+                    <td>Timestamp</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in casefile.entries|sort(reverse=true, attribute='utc_timestamp') %}
+                    <tr>
+                        <td>{{ entry.description }}</td>
+                        <td>{{ entry.member.name }}</td>
+                        <td>{{ entry.central_datetime().strftime("%I:%M %p on %m/%d/%y") }}</td>
+                       
+                        <td> <a class="button is-danger" href="{{ url_for('casefile.delete_entry', tenant_name=tenant_name,entry_id=entry.id)}}">
+                            <span class="icon is-small">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+            <!-- FORM BODY STARTS HERE -->
+        <div id="client_form">
+            <div class="box">
+                <h1 class="title">Client Details</h1>
+              <!---  <form method="POST" action="/client/{{ client.id }}">  -->
+                <form method = "POST" action = "{{ url_for('client.details',client_id=client_id, tenant_name=tenant_name, ) }}">
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.first_name }}" name="first_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Middle Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.middle_name }}" name="middle_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.last_name }}" name="last_name">
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <!-- DOB SSN MARITAL STATUS-->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Date of Birth</label>
+                            <div class="control">
+                                <input class="input" type="date" value="{{ client.dob }}" name="dob">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Social Security Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.ssn }}" name="ssn">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Marital Status</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="marital_status">
+                                        <option>{{ client.marital_status }}</option>
+                                        <option>Single</option>
+                                        <option>Married</option>
+                                        <option>Divorced</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Driver?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="is_driver">
+                                        <option>{{ client.is_driver }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Contact Information</h2>
+                <!-- MAILING ADDRESS -->
+                <div class="field">
+                    <label class="label">Street Address</label>
+                    <div class="control">
+                        <input class="input" type="text" value="{{ client.street_address }}" name="street_address">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">City</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.city }}" name="city">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.state }}" name="state">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Zip Code</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.zip_code }}" name="zip_code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE NUMBERS-->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Primary Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.primary_phone }}" name="primary_phone">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Secondary Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.secondary_phone }}" name="secondary_phone">
+                            </div>
+                    </div>
+                </div>
+                <!-- EMAIL -->
+                </div>
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" type="text" value="{{ client.email }}" name="email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Accident Details</h2>
+                <!-- INJURIES -->
+                <div class="field">
+                    <label class="label">Injury description</label>
+                        <textarea class="textarea" rows="3" name="injuries">{{ client.injuries }}</textarea>
+                </div>
+                <!-- AMBULANCE AND HOSPITAL  -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Did they ride in an ambulance?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="rode_ambulance">
+                                        <option>{{ client.rode_ambulance }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Did they visit the hospital immediately?</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="visited_hospital">
+                                        <option>{{ client.visited_hospital }}</option>
+                                        <option>True</option>
+                                        <option>False</option>
+                                    </select>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Prior Accident/Injury Notes</h2>
+                <!-- PRIOR ACCIDENT -->
+                <div class="field">
+                    <label class="label">Were they in a prior accident?</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="had_prior_accident">
+                                <option>{{ client.had_prior_accident }}</option>
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Prior accident description</label>
+                        <textarea class="textarea" rows="2" name="prior_accident_notes">{{ client.prior_accident_notes }}</textarea>
+                </div>
+                <!-- PRIOR INJURY -->
+                <div class="field">
+                    <label class="label">Did they have prior injury?</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="had_prior_injury">
+                                <option>{{ client.had_prior_injury }}</option>
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Prior injury description</label>
+                        <textarea class="textarea" rows="2" name="prior_injury_notes">{{ client.prior_injury_notes }}</textarea>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Work Impact</h2>
+                <!-- WORK IMPACTED -->
+                <div class="field">
+                    <label class="label">Was the client's work impacted by the accident?</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="was_work_impacted">
+                                <option>{{ client.was_work_impacted }}</option>
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Work impact description</label>
+                    <textarea class="textarea" rows="2" name="work_impacted_notes">{{ client.work_impacted_notes }}</textarea>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="subtitle">Referral Information</h2>
+                <!-- REFERRER -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Who referred this client?</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.referrer }}" name="referrer">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">What is the referrer relationship?</label>
+                            <div class="control">
+                                <input class="input" type="text" value="{{ client.referrer_relationship }}" name="referrer_relationship">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOTES -->
+            <div class="box">
+                <h2 class="subtitle">Client Notes</h2>
+                <textarea class="textarea" name="notes">{{ client.notes }}</textarea>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Update</button>
+            </div>
+        </div>
+    </form>
+    <div class="buttons is-left">
+        <a class="button is-large is-danger" href="{{ url_for('client.delete' ,client_id=client_id, tenant_name=tenant_name)}}">Delete Client</a>
+    </div>
+            <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

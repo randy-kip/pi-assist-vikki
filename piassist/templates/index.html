@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+  <div class="container has-text-centered">
+    <a href="{{ url_for('casefile.closed_casefiles' ,tenant_name=tenant_name) }}" class="button is-danger">Closed Case Files</a> <!-- Button for Closed Case Files -->
+    
+    <table class="table is-fullwidth" id="home-index">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Stage</th>
+          <th>Status</th>
+          <th>Date of Loss</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for casefile in casefiles %}
+          {% if not casefile.closed %} <!-- Show only open case files -->
+          <tr>
+            <td><a href="{{ url_for('casefile.details', tenant_name=tenant_name,casefile_id=casefile.id) }}">{{ casefile.case_label }}</a></td>
+            <td>{{ casefile.stage }}</td>
+            <td>{{ casefile.status }}</td>
+            <td>{{ casefile.date_of_loss.strftime("%m/%d/%Y") }}</td>
+            <td>
+              <a href="{{ url_for('casefile.send_reminder', casefile_id=casefile.id, tenant_name=tenant_name) }}" class="navbar-item">Add Reminder</a>
+            </td>
+            <td>
+              <button class="button is-small is-danger move-to-closed" data-casefile-id="{{ casefile.id }}">
+                <i class="fas fa-archive"></i> <!-- Archive Icon -->
+              </button>
+            </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/dataTables.bulma.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".move-to-closed").forEach(button => {
+      button.addEventListener("click", function() {
+        let casefileId = this.getAttribute("data-casefile-id");
+        if (confirm("Are you sure you want to move this casefile to Closed Case Files?")) {
+          fetch(`/{{ tenant_name|urlencode }}/close_casefile/casefile/${casefileId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ casefile_id: casefileId })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Casefile moved to Closed Case Files!");
+              location.reload(); // Refresh page to reflect changes
+            } else {
+              alert("Error moving casefile.");
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- FORM BODY STARTS HERE -->
+        <form method="POST" action="{{ url_for('autoadjuster.input', tenant_name=tenant_name) }}">
+        <div id="auto_adjuster_form">
+            <div class="box">
+                <h1 class="title">New Auto Adjuster</h1>
+                <!--PROVIDER -->
+                <div class="field">
+                    <label class="label">Auto Insurance Carrier Name</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="auto_insurance_id">
+                                <option value=""></option>
+                                {% for auto_insurance_provider in auto_insurance_providers %}<option value="{{ auto_insurance_provider.id }}">{{ auto_insurance_provider.name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADJUSTER NAME -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="first_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Middle Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="middle_name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="last_name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PHONE EMAIL FAX -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="phone">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="email">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Fax</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="fax">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ADDRESS -->
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Street Address</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="street_address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">City</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="city">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">State</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="state">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Zip Code</label>
+                            <div class="control">
+                                <input class="input" type="text" value="" name="zip_code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BUTTON -->
+            <div class="buttons is-right">
+                <button class="button is-large">Create</button>
+            </div>
+        </div>
+    </form>
+        <!-- FORM BODY ENDS HERE -->
+    </div>
+{% endblock %}

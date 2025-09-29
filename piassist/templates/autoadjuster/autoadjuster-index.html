@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container has-text-centered">
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>
+            Auto Adjuster
+          </th>
+          <th>
+            <span class="buttons is-right">
+              <a class="button" href="{{ url_for('autoadjuster.input', tenant_name=tenant_name) }}">Add New Adjuster</a>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for auto_adjuster in auto_adjusters %}
+          <tr>
+            <td><a href="{{ url_for('autoadjuster.details', tenant_name=tenant_name, auto_adjuster_id=auto_adjuster.id) }}">{{ auto_adjuster.last_name }}, {{ auto_adjuster.first_name }}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container has-text-centered">
+  <h1 class="title">Clients</h1>
+  
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>
+          Client Name
+        </th>
+        <th>
+          <span class="buttons is-right">
+            <a class="button" href="{{ url_for('client.input', tenant_name=tenant_name) }}">Add New Client</a>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in clients %}
+        <tr>
+          <td><a href="{{ url_for('client.details', client_id=client.id, tenant_name=tenant_name) }}">{{ client.first_name }} {{ client.last_name }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

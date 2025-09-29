@@ -1,0 +1,673 @@
+{% extends "base.html" %}
+{% block head %}
+<script>
+    function addProvider(){
+        let element = '<div class="field"><label class="label">Provider</label><div class="control"><div class="select is-multiple"><select name="med_provider"><option value=""></option>{% for medical_provider in medical_providers %}<option value="{{ medical_provider.id }}">{{ medical_provider.name }}</option>{% endfor %}</select></div></div></div>';
+        $(document).ready(function(){
+            $("#providers-container").append(element);
+        });
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<h1 class="title">Accident and Primary Client Information</h1>
+<!----------------ACCIDENT INFORMATION------------->
+<form method="POST" action="{{ url_for('intake.primary', tenant_name=tenant_name ) }}">
+<div class="box has-background-white">
+    <h2 class="subtitle">Accident Information</h2>
+    <!-- ACCIDENT DATE AND TIME START-->
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- date_of_loss (MODELED) -->
+            <div class="field">
+                <label class="label">Date of Loss:</label>
+                <div class="control">
+                    <input class="input" type="date" name="date_of_loss" required>
+                </div>
+            </div>
+            <!-- time_of_wreck (MODELED)-->
+            <div class="field">
+                <label class="label">Approximate Time:</label>
+                <div class="control">
+                    <input class="input" type="time" name="time_of_wreck">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ACCIDENT DATE AND TIME END -->
+    <!-- ACCIDENT LOCATION START -->
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- wreck_street (MODELED)-->
+            <div class="field">
+                <label class="label">Street</label>
+                <div class="control">
+                    <input class="input" type="text" name="wreck_street">
+                </div>
+            </div>
+            <!-- wreck_city (MODELED)-->
+            <div class="field">
+                <label class="label">City</label>
+                <div class="control">
+                    <input class="input" type="text" name="wreck_city">
+                </div>
+            </div>
+            <!-- wreck_state (MODELED) -->
+            <div class="field">
+                <label class="label">State</label>
+                <div class="control">
+                    <input class="input" type="text" name="wreck_state">
+                </div>
+            </div>
+            <!-- wreck_county (MODELED) -->
+            <div class="field">
+                <label class="label">County</label>
+                <div class="control">
+                    <input class="input" type="text" name="wreck_county">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- ACCIDENT LOCATION END -->
+    <!-- ACCIDENT DESCRIPTIONS START-->
+    <div class="box has-background-white">
+    <h2 class="subtitle">Accident Description</h2>
+    <!-- wreck_type (MODELED)-->
+    <div class="field">
+        <label class="label">What type of accident occurred?</label>
+        <div class="control is-expanded">
+            <div class="select is-fullwidth">
+                <select name="wreck_type">
+                    <option></option>
+                    <option>T BONE</option>
+                    <option>LANE CHANGE</option>
+                    <option>REAR END</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- wreck_description-(MODELED)-->
+    <div class="field">
+        <label class="label">Please write a detailed description of the accident using cardinal directions:</label>
+        <textarea class="textarea" name="wreck_description" rows="10"></textarea>
+    </div>
+    <!-- ACCIDENT DESCRIPTION ENDS -->
+    <!-- ACCIDENT DETAILS START -->
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- is_police_involved (MODELED)-->
+            <div class="field">
+                <label class="label">Did the police show up to the accident?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="is_police_involved" value="True">
+                        True
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="is_police_involved" value="False">
+                        False
+                    </label>
+                </div>
+            </div>
+            <!-- police_force (MODELED) -->
+            <div class="field">
+                <label class="label">What agency responded?</label>
+                <div class="control">
+                    <input class="input" type="text" name="police_force">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- is_police_report (MODELED)-->
+            <div class="field">
+                <label class="label">Was there an accident/incident report made?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="is_police_report" value="True">
+                        True
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="is_police_report" value="False">
+                        False
+                    </label>
+                </div>
+            </div>
+            <!-- police_report_number (MODELED) -->
+            <div class="field">
+                <label class="label">What is the accident/incident report number?</label>
+                <div class="control">
+                    <input class="input" type="text" name="police_report_number">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- vehicle_description (MODELED) -->
+            <div class="field">
+                <label class="label">Please give a description of the vehicle driven at the time of the accident:</label>
+                <div class="control">
+                    <input class="input" type="text" name="vehicle_description">
+                </div>
+            </div>
+            <!-- damage_level (MODELED)-->
+            <div class="field">
+                <label class="label">What was the level of property damage?</label>
+                <div class="control">
+                    <input class="input" type="text" name="damage_level">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- defendant_count (MODELED)-->
+            <div class="field">
+                <label class="label">How many other vehicles (defendants) were involved in this accident?</label>
+                <div class="control">
+                    <input class="input" type="number" name="defendant_count" min="1" value="1" required>
+                </div>
+            </div>
+            <!-- client_count (MODELED) -->
+            <div class="field">
+                <label class="label">How many people total are we representing in this case?</label>
+                <div class="control">
+                    <input class="input" type="number" name="client_count" min="1" value="1" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- wreck notes (MODELED) -->
+    <div class="field">
+        <label class="label">Additional accident information:</label>
+        <textarea class="textarea" name="wreck_notes" rows="10"></textarea>
+    </div>
+    <!-- ACCIDENT DETAILS END -->
+    </div>
+<!----------------CLIENT INFORMATION------------->    
+<div class="box">
+    <h2 class="subtitle">Primary Client Information</h2>
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- is_driver -->
+            <div class="field">
+                <label class="label">Is this client the driver?</label>
+                <div class="select">
+                    <select name="is_driver">
+                        <option></option>
+                        <option>True</option>
+                        <option>False</option>
+                    </select>
+                </div>
+            </div>
+            <!-- first_name (MODELED)-->
+            <div class="field">
+                <label class="label">First Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="first_name" required>
+                </div>
+            </div>
+            <!-- middle_name (MODELED)-->
+            <div class="field">
+                <label class="label">Middle Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="middle_name">
+                </div>
+            </div>
+            <!-- last_name (MODELED)-->
+            <div class="field">
+                <label class="label">Last Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="last_name" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- marital_status (MODELED) -->
+            <div class="field">
+                <label class="label">Marital Status?</label>
+                <div class="control is-expanded">
+                    <div class="select is-fullwidth">
+                        <select name="marital_status">
+                            <option value=""></option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- dob (MODELED)-->
+            <div class="field">
+                <label class="label">Date of Birth</label>
+                <div class="control">
+                    <input class="input" type="date" name="dob" required>
+                </div>
+            </div>
+            <!-- ssn (MODELED)-->
+            <div class="field">
+                <label class="label">Social Security Number</label>
+                <div class="control">
+                    <input class="input" type="text" name="ssn">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- street_address (MODELED)-->
+            <div class="field">
+                <label class="label">Street Address</label>
+                <div class="control">
+                    <input class="input" type="text" name="street_address">
+                </div>
+            </div>
+            <!-- city (MODELED)-->
+            <div class="field">
+                <label class="label">City</label>
+                <div class="control">
+                    <input class="input" type="text" name="city">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- state (MODELED)-->
+            <div class="field">
+                <label class="label">State</label>
+                <div class="control">
+                    <input class="input" type="text" name="state">
+                </div>
+            </div>
+            <!-- zip_code (MODELED)-->
+            <div class="field">
+                <label class="label">Zip Code</label>
+                <div class="control">
+                    <input class="input" type="text" name="zip_code">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- primary_phone (MODELED)-->
+            <div class="field">
+                <label class="label">Primary Phone</label>
+                <div class="control">
+                    <input class="input" type="text" name="primary_phone">
+                </div>
+            </div>
+            <!-- secondary_phone (MODELED)-->
+            <div class="field">
+                <label class="label">Secondary Phone</label>
+                <div class="control">
+                    <input class="input" type="text" name="secondary_phone">
+                </div>
+            </div>
+            <!-- email (MODELED)-->
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input" type="text" name="email">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <!-- referrer (MODELED)-->
+            <div class="field">
+                <label class="label">Who referred this client to us?</label>
+                <div class="control">
+                    <input class="input" type="text" name="referrer">
+                </div>
+            </div>
+            <!-- referrer_relationship (MODELED)-->
+            <div class="field">
+                <label class="label">Relationship</label>
+                <div class="control">
+                    <input class="input" type="text" name="referrer_relationship">
+                </div>
+                <p class="help">How are they related to the referring party?</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- client_notes (textarea) (MODELED)-->
+    <div class="field">
+        <label class="label">Additional client information (i.e. years residency, prior convictions, etc...)</label>
+        <div class="control">
+            <textarea class="textarea" name="notes" rows="10"></textarea>
+        </div>
+    </div>
+    </div>
+    <!----------------BODILY INFORMATION------------->
+    <div class="box has-background-white">
+        <h2 class="subtitle">Bodily Injury Information</h2>
+        <!-- injuries (textarea) (MODELED) -->
+        <div class="field">
+            <label class="label">What injuries were sustained from this accident?</label>
+            <div class="control">
+                <textarea class="textarea" name="injuries" rows="10"></textarea>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- ambulance (radio BOOLEAN) (MODELED) -->
+                <div class="field">
+                    <label class="label">Did this client leave in an ambulance?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="rode_ambulance" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="rode_ambulance" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Did this client go directly to the hospital after the accident?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="visited_hospital" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="visited_hospital" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- medical_provider_list (MODELED.... FOR NOW)-->
+        <div id="providers-container">
+            <div class="field">
+                <label class="label">Please list the names of all doctors and medical providers seen as a result of the accident</label>
+                <div class="control">
+                    <div class="select is-multiple">
+                        <select name="med_provider">
+                            <option value=""></option>
+                            {% for medical_provider in medical_providers %}<option value="{{ medical_provider.id }}">{{ medical_provider.name }}</option>{% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="block">
+            <div class="buttons">
+                <p class="button" onclick="addProvider();">Add Another Provider</p>
+            </div>
+        </div>
+
+    <!----------------HEALTH INSURANCE INFORMATION------------->
+ 
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- hi (radio BOOLEAN) (Modeled)-->
+                <div class="field">
+                    <label class="label">Does this client have health insurance?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="has_hi" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="has_hi" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <!-- health_insurance_id (MODELED.... FOR NOW)-->
+                <div id="providers-container">
+                    <div class="field">
+                        <label class="label">Health Insurance Provider</label>
+                        <div class="control">
+                            <div class="select is-multiple">
+                                <select name="health_insurance_id">
+                                    <option value=""></option>
+                                    {% for health_insurance_provider in health_insurance_providers %}<option value="{{ health_insurance_provider.id }}">{{ health_insurance_provider.name }}</option>{% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- hi_member_id (Modeled)-->
+                <div class="field">
+                    <label class="label">Member ID #</label>
+                    <div class="control">
+                        <input class="input" type="text" name="member_id">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box has-background-white">
+        <h2 class="subtitle">Additional Injury Information</h2>
+            <!-- prior_injury (radio BOOLEAN) (MODELED)-->
+            <div class="field">
+                <label class="label">Has there been prior injury in the same parts of the body in the past?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="had_prior_injury" value="True">
+                        True
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="had_prior_injury" value="False">
+                        False
+                    </label>
+                </div>
+            </div>
+            <!-- prior_injury_notes (textarea) (MODELED)-->
+            <div class="field">
+                <label class="label">If yes, please describe the injury and list the doctor(s) who treated the client:</label>
+                <div class="control">
+                    <textarea class="textarea" name="prior_injury_notes" rows="10"></textarea>
+                </div>
+            </div>
+            <!-- prior_accident (radio BOOLEAN) (MODELED) -->
+            <div class="field">
+                <label class="label">Have there been any accidents of any kind in the past 10 years?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="had_prior_accident" value="True">
+                        True
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="had_prior_accident" value="False">
+                        False
+                    </label>
+                </div>
+            </div>
+            <!-- prior_accident_notes (textarea) (MODELED) -->
+            <div class="field">
+                <label class="label">If yes, please describe prior accident including date of accident:</label>
+                <div class="control">
+                    <textarea class="textarea" name="prior_accident_notes" rows="10"></textarea>
+                </div>
+            </div>
+            <!-- work_impacted (radio BOOLEAN) (MODELED) -->
+            <div class="field">
+                <label class="label">Has the client missed any work because of this accident?</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="was_work_impacted" value="True">
+                        True
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="was_work_impacted" value="False">
+                        False
+                    </label>
+                </div>
+            </div>
+            <!-- work_impacted_notes (textarea) (MODELED) -->
+            <div class="field">
+                <label class="label">If yes, please list name of employer and describe loss of wages:</label>
+                <div class="control">
+                    <textarea class="textarea" name="work_impacted_notes" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+
+    <div class="box has-background-white">
+    <!-------CLIENT AUTO INSURANCE INFORMATION--------->
+        <h2 class="subtitle">First Party Auto Insurance Information</h2>
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- auto_insurance_id (MODELED.... FOR NOW)-->
+                <div id="providers-container">
+                    <div class="field">
+                        <label class="label">Auto Insurance Company</label>
+                        <div class="control">
+                            <div class="select is-multiple">
+                                <select name="auto_insurance_id">
+                                    <option value=""></option>
+                                    {% for auto_insurance_provider in auto_insurance_providers %}<option value="{{ auto_insurance_provider.id }}">{{ auto_insurance_provider.name }}</option>{% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- policy_number (MODELED)-->
+                <div class="field">
+                    <label class="label">Policy Number:</label>
+                    <div class="control">
+                        <input class="input" type="text" name="policy_number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- medpay (radio BOOLEAN) (MODELED)-->
+                <div class="field">
+                    <label class="label">Do you have MedPay on your policy?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="has_medpay" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="has_medpay" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <!-- mp_amount (MODELED) -->
+                <div class="field">
+                    <label class="label">If yes, how much?</label>
+                    <div class="control">
+                        <input class="input" type="number" name="medpay_amount">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- uninsured_motorist (radio BOOLEAN) (MODELED) -->
+                <div class="field">
+                    <label class="label">Do you have UM on your policy?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="has_um_coverage" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="has_um_coverage" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <!-- um_amount (MODELED)-->
+                <div class="field">
+                    <label class="label">If yes, how much?</label>
+                    <div class="control">
+                        <input class="input" type="text" name="um_amount">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="field is-horizontal">
+            <div class="field-body">
+                <!-- claim_started (radio BOOLEAN) (MODELED) -->
+                <div class="field">
+                    <label class="label">Have you set up a claim with them?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="is_started" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="is_started" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+                <!-- first_party_statement (radio BOOLEAN) (MODELED) -->
+                <div class="field">
+                    <label class="label">Did you give a statement to your insurance adjuster?</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="is_statement" value="True">
+                            True
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="is_statement" value="False">
+                            False
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <!-- first_party_claim_number (MODELED) -->
+                    <div class="field">
+                        <label class="label">Claim Number</label>
+                        <div class="control">
+                            <input class="input" type="text" name="claim_number">
+                        </div>
+                    </div>
+            </div>
+        </div>
+    <div class="field">
+        <div class="buttons is-right">
+            <button class="button is-inverted is-large">
+                <span class="icon-text">
+                    <span>Next Page</span>
+                    <span class="icon">
+                        <i class="fa fa-arrow-right"></i>
+                    </span>
+                </span>
+            </button>
+        </div>  
+    </div>
+</div>
+</form>
+</div>
+{% endblock %}

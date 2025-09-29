@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    table th, td {
+        padding: 20px;
+        text-align: right;
+    }
+    h1 {
+        padding: 20px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+</style>
+
+<div class="container">
+    <h1>Medical Billing Totals by Provider</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Provider Name</th>
+                <th>Amount Billed</th>
+                <th>Insurance Paid</th>
+                <th>Adjusted</th>
+                <th>MP Paid</th>
+                <th>Patient Paid</th>
+                <th>Reduced</th>
+                <th>Total Due</th>
+                <th>Expenses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- {% for bill in medical_bills %}
+                <tr>
+                    <td>{{ bill.provider.name }}</td>
+                    <td>{{ bill.total_billed | round(2) }}</td>
+                    <td>{{ bill.insurance_paid | round(2) }}</td>
+                    <td>{{ bill.insurance_adjusted | round(2) }}</td>
+                    <td>{{ bill.mp_paid | round(2) }}</td>
+                    <td>{{ bill.patient_paid | round(2) }}</td>
+                    <td>{{ bill.total_reduction_amount | round(2) }}</td>
+                    <td>{{ (bill.total_billed - (bill.insurance_paid + bill.insurance_adjusted + bill.patient_paid + bill.total_reduction_amount)) | round(2) }}</td>
+                    <td>{{ bill.expense | round(2) }}</td>
+                </tr>
+            {% endfor %} -->
+        </tbody>
+        <tbody>
+            {% for total in provider_totals %}
+                <tr>
+                    <td><strong>{{ total.provider_name }}</strong></td>
+                    <td>{{ total.total_billed if total.total_billed is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.total_insurance_paid if total.total_insurance_paid is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.insurance_adjusted if total.insurance_adjusted is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.total_mp_paid if total.total_mp_paid is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.total_patient_paid if total.total_patient_paid is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.total_reduction_amount if total.total_reduction_amount is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.total_due if total.total_due is not none else 0.0 | round(2) }}</td>
+                    <td>{{ total.total_expense if total.expense is not none else 0.0 | round(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>{{ grand_totals.total_billed | round(2) }}</td>
+                <td>{{ grand_totals.total_insurance_paid | round(2) }}</td>
+                <td>{{ grand_totals.insurance_adjusted | round(2) }}</td>
+                <td>{{ grand_totals.total_mp_paid | round(2) }}</td>
+                <td>{{ grand_totals.total_patient_paid | round(2) }}</td>
+                <td>{{ grand_totals.total_reduction_amount | round(2) }}</td>
+                <td>{{ grand_totals.total_due | round(2) }}</td>
+                <td>{{ grand_totals.total_expense | round(2) }}</td>
+            </tr>
+            
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}
+
+
+
